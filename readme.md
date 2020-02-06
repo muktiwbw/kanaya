@@ -17,7 +17,8 @@
 1. Untuk menjalankan web server, jalankan command ```php artisan serve```
 
 ## List Route:
-### 1. Home - /
+### 1. Home - localhost:8000/
 Halaman awal
 
-### 1. Login Admin - 
+### 1. Login Admin - localhost:8000/admin/login
+Halaman login khusus untuk user admin (Super Admin dan Admin lainnya)
