@@ -30,6 +30,8 @@ Halaman list produk. Berisi tabel produk yang terdiri dari 5 item di setiap hala
 Halaman untuk menampilkan detail produk beserta mengedit detail produk.
 
 #### Terdapat beberapa fitur pada halaman ini, diantaranya:
-**1. Edit detail produk:** Mengupdate detail produk yang berupa info teks (nama, harga, stok, dll)
+**1. Edit detail produk:** Mengupdate detail produk yang berupa info teks (nama, harga, stok, dll).
 
-**2. Hapus foto produk:** Dengan mengklik foto produk sampai muncul bingkai merah, lalu klik Update. Gambar akan terhapus dari data produk sekaligus menghapus file pada direktori /public/img/products
+**2. Hapus foto produk:** Dengan mengklik foto produk sampai muncul bingkai merah, lalu klik Update. Gambar akan terhapus dari data produk sekaligus menghapus file pada direktori /public/img/products.
+
+**3. Menambahkan beberapa foto baru:** Dengan mengklik tombol "Choose files" maka user dapat memilih 1 atau lebih gambar untuk diupload dan dijadikan foto produk yang bersangkutan.
