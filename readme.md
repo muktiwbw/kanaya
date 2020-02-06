@@ -26,7 +26,10 @@ Halaman login khusus untuk user admin (Super Admin dan Admin lainnya).
 ### 3. List Produk - localhost:8000/admin/product
 Halaman list produk. Berisi tabel produk yang terdiri dari 5 item di setiap halamannya.
 
-### 4. Edit Produk - localhost:8000/admin/product/id_produk
+### 4. Menambahkan Produk Baru - localhost:8000/admin/product/new
+Halaman ini untuk menambahkan data produk baru. Isi informasi dasar produk (kecuali Code, karena otomatis ter-generate sesuai urutan produk pada database). User juga dapat menambahkan foto produk dengan mengklik tombol "Choose files" dan memilih 1 atau lebih gambar untuk diupload. Gambar yang diupload akan tersimpan di /public/img/products dengan nama sesuai dengan id produk dan urutan gambar pada produk tersebut.
+
+### 5. Edit Produk - localhost:8000/admin/product/id_produk
 Halaman untuk menampilkan detail produk beserta mengedit detail produk.
 
 #### Terdapat beberapa fitur pada halaman ini, diantaranya:
