@@ -1,6 +1,6 @@
 # Kanaya Kebaya
 
-## Langkah memulai:
+## Langkah Installasi:
 1. Clone atau download zip file
 1. Jalankan XAMPP
 1. Buka PHPMyAdmin, buat database baru dengan nama terserah (contoh: kanaya)
@@ -12,3 +12,5 @@
 1. Buka CMD pada direktori folder
 1. Jalankan command ```composer install```
 1. Setelah selesai jalankan command ```php artisan key:generate```
+1. Untuk migrasi database, jalankan command ```php artisan migrate``` 
+1. Jalankan ```php artisan db:seed``` untuk membuat user SUPER ADMIN
