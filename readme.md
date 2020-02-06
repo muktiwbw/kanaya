@@ -20,5 +20,5 @@
 ### 1. Home - localhost:8000/
 Halaman awal
 
-### 1. Login Admin - localhost:8000/admin/login
+### 2. Login Admin - localhost:8000/admin/login
 Halaman login khusus untuk user admin (Super Admin dan Admin lainnya)
