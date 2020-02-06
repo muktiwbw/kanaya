@@ -10,6 +10,5 @@
 1. Sesuaikan DB_USERNAME dan DB_PASSWORD juga jika pernah diganti. Kalau tidak, biarkan saja
 1. Save file .env
 1. Buka CMD pada direktori folder
-1. Jalankan command:
-```composer install```
-```php artisan key:generate```
+1. Jalankan command ```composer install```
+1. Setelah selesai jalankan command ```php artisan key:generate```
