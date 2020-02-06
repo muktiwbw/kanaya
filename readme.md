@@ -18,7 +18,17 @@
 
 ## List Route:
 ### 1. Home - localhost:8000/
-Halaman awal
+Halaman awal.
 
 ### 2. Login Admin - localhost:8000/admin/login
-Halaman login khusus untuk user admin (Super Admin dan Admin lainnya)
+Halaman login khusus untuk user admin (Super Admin dan Admin lainnya).
+
+### 3. List Produk - localhost:8000/admin/product
+Halaman list produk. Berisi tabel produk yang terdiri dari 5 item di setiap halamannya.
+
+### 4. Edit Produk - localhost:8000/admin/product/id_produk
+Halaman untuk menampilkan detail produk beserta mengedit detail produk.
+
+#### Terdapat beberapa fitur pada halaman ini, diantaranya:
+**1. Edit detail produk:** Mengupdate detail produk yang berupa info teks (nama, harga, stok, dll)
+**1. Hapus foto produk:** Dengan mengklik foto produk sampai muncul bingkai merah, lalu klik Update. Gambar akan terhapus dari data produk sekaligus menghapus file pada direktori /public/img/products
