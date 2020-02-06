@@ -35,3 +35,5 @@ Halaman untuk menampilkan detail produk beserta mengedit detail produk.
 **2. Hapus foto produk:** Dengan mengklik foto produk sampai muncul bingkai merah, lalu klik Update. Gambar akan terhapus dari data produk sekaligus menghapus file pada direktori /public/img/products.
 
 **3. Menambahkan beberapa foto baru:** Dengan mengklik tombol "Choose files" maka user dapat memilih 1 atau lebih gambar untuk diupload dan dijadikan foto produk yang bersangkutan.
+
+**4. Menghapus data produk:** Menghapus data produk beserta foto-foto dari produk yang bersangkutan yang ada di direktori /public/img/products.
