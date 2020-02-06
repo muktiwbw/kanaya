@@ -21,7 +21,7 @@
 Halaman awal.
 
 ### 2. Login Admin - localhost:8000/admin/login
-Halaman login khusus untuk user admin (Super Admin dan Admin lainnya).
+Halaman login khusus untuk user admin (Super Admin dan Admin lainnya). Setelah pada proses installasi menjalankan command ```php artisan db:seed``` maka sudah dibuatkan user SUPER ADMIN. Untuk login ketikkan email ```superadmin``` dan password ```superadmin```.
 
 ### 3. List Produk - localhost:8000/admin/product
 Halaman list produk. Berisi tabel produk yang terdiri dari 5 item di setiap halamannya.
