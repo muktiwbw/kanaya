@@ -14,3 +14,7 @@
 1. Setelah selesai jalankan command ```php artisan key:generate```
 1. Untuk migrasi database, jalankan command ```php artisan migrate``` 
 1. Jalankan ```php artisan db:seed``` untuk membuat user SUPER ADMIN
+
+## List Route:
+### 1. Home - /
+Halaman awal
