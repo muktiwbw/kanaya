@@ -31,4 +31,5 @@ Halaman untuk menampilkan detail produk beserta mengedit detail produk.
 
 #### Terdapat beberapa fitur pada halaman ini, diantaranya:
 **1. Edit detail produk:** Mengupdate detail produk yang berupa info teks (nama, harga, stok, dll)
-**1. Hapus foto produk:** Dengan mengklik foto produk sampai muncul bingkai merah, lalu klik Update. Gambar akan terhapus dari data produk sekaligus menghapus file pada direktori /public/img/products
+
+**2. Hapus foto produk:** Dengan mengklik foto produk sampai muncul bingkai merah, lalu klik Update. Gambar akan terhapus dari data produk sekaligus menghapus file pada direktori /public/img/products
