@@ -58,10 +58,30 @@ Route::get('logout', 'AuthenticationController@logout')->name('logout');
 // ============================================================================================================================================
 
 // Catalog
-Route::get('catalog', 'ProductController@catalog')->name('catalog');
+Route::get('catalog', 'TransactionController@catalog')->name('catalog');
 
 Route::prefix('product')->group(function(){
-    Route::get('{id}', 'ProductController@detail')->name('product-detail');
+    Route::get('{id}', 'TransactionController@detail')->name('product-detail');
+});
+
+Route::middleware('customer')->group(function(){
+
+    Route::get('profile', 'CustomerController@profile')->name('profile');
+
+    Route::prefix('cart')->group(function(){
+
+        Route::get('/', 'TransactionController@cart')->name('cart');
+        
+        Route::get('checkout', 'TransactionController@checkout')->name('cart-checkout');
+        
+        Route::post('{id}', 'TransactionController@addToCart')->name('cart-add');
+
+        Route::patch('{id}', 'TransactionController@updateCart')->name('cart-update');
+
+        Route::delete('{id}', 'TransactionController@deleteCart')->name('cart-delete');
+
+    });
+
 });
 
 Route::middleware('guest:users', 'guest:customers')->post('login', 'AuthenticationController@authenticate')->name('login');
@@ -71,23 +91,9 @@ Route::post('register', 'AuthenticationController@register')->name('register');
 
 Route::middleware('guest:users', 'guest:customers')->get('login', 'AuthenticationController@loginView')->name('view-login');
 
+/**
+ * Todo:
+ * 1. Konfirmasi dari sisi admin
+ * 2. Pengembalian
+ */
 
-Route::middleware('customer')->group(function(){
-
-    Route::get('profile', 'CustomerController@profile')->name('profile');
-
-    Route::prefix('cart')->group(function(){
-
-        Route::get('/', 'TransactionController@cart')->name('cart');
-
-        Route::post('add', 'TransactionController@addToCart')->name('cart-add');
-
-        Route::patch('update', 'TransactionController@updateCart')->name('cart-update');
-
-        Route::delete('delete', 'TransactionController@deleteCart')->name('cart-delete');
-
-        Route::get('checkout', 'TransactionController@checkout')->name('cart-checkout');
-
-    });
-
-});

@@ -13,6 +13,7 @@ class ProductController extends Controller
 {
     public function all(){
         $products = Product::orderBy('updated_at', 'desc')->paginate(5);
+        // dd($products[2]->images);
         return view('products.all', [
             'products' => $products
         ]);
@@ -142,10 +143,6 @@ class ProductController extends Controller
         if(!$product->delete()) return redirect()->back()->with('message', 'Terjadi kesalahan menghapus data gambar!');
 
         return redirect()->back()->with('message', 'Product berhasil dihapus!');
-    }
-
-    public function catalog(){
-        return view('products.catalog', ['products' => Product::all()]);
     }
 
 }

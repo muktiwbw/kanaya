@@ -44,7 +44,11 @@
                 <td>{{$product->code}}</td>
                 <td><a href="{{route('admin-products-edit', ['id' => $product->id])}}">{{$product->name}}</a></td>
                 <td>
+                    @if($product->images()->first())
                     <img style="border-style: none;" width="100" src="{{asset('img/'.$product->images()->first()->url)}}" alt="{{$product->name}}">
+                    @else
+                    Tidak ada gambar
+                    @endif
                 </td>
                 <td>Rp {{number_format($product->price)}}</td>
                 <td>{{$product->stock}}</td>
