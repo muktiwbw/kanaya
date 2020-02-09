@@ -1,72 +1,42 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+# Kanaya Kebaya
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+## Langkah Installasi:
+1. Clone atau download zip file
+1. Jalankan XAMPP
+1. Buka PHPMyAdmin, buat database baru dengan nama terserah (contoh: kanaya)
+1. Buka folder file yang sudah didownload
+1. Copy .env-example di tempat yang sama, lalu rename dengan nama .env
+1. Buka file .env, ganti value DB_DATABASE dengan nama database yang baru saja dibuat di PHPMyAdmin
+1. Sesuaikan DB_USERNAME dan DB_PASSWORD juga jika pernah diganti. Kalau tidak, biarkan saja
+1. Save file .env
+1. Buka CMD pada direktori folder
+1. Jalankan command ```composer install```
+1. Setelah selesai jalankan command ```php artisan key:generate```
+1. Untuk migrasi database, jalankan command ```php artisan migrate``` 
+1. Jalankan ```php artisan db:seed``` untuk membuat user SUPER ADMIN
+1. Untuk menjalankan web server, jalankan command ```php artisan serve```
 
-## About Laravel
+## List Route:
+### 1. Home - localhost:8000/
+Halaman awal.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 2. Login Admin - localhost:8000/admin/login
+Halaman login khusus untuk user admin (Super Admin dan Admin lainnya). Setelah pada proses installasi menjalankan command ```php artisan db:seed``` maka sudah dibuatkan user SUPER ADMIN. Untuk login ketikkan email ```superadmin``` dan password ```superadmin```.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 3. List Produk - localhost:8000/admin/product
+Halaman list produk. Berisi tabel produk yang terdiri dari 5 item di setiap halamannya.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 4. Menambahkan Produk Baru - localhost:8000/admin/product/new
+Halaman ini untuk menambahkan data produk baru. Isi informasi dasar produk (kecuali Code, karena otomatis ter-generate sesuai urutan produk pada database). User juga dapat menambahkan foto produk dengan mengklik tombol "Choose files" dan memilih 1 atau lebih gambar untuk diupload. Gambar yang diupload akan tersimpan di /public/img/products dengan nama sesuai dengan id produk dan urutan gambar pada produk tersebut.
 
-## Learning Laravel
+### 5. Edit Produk - localhost:8000/admin/product/id_produk
+Halaman untuk menampilkan detail produk beserta mengedit detail produk.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+#### Terdapat beberapa fitur pada halaman ini, diantaranya:
+**1. Edit detail produk:** Mengupdate detail produk yang berupa info teks (nama, harga, stok, dll).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**2. Hapus foto produk:** Dengan mengklik foto produk sampai muncul bingkai merah, lalu klik Update. Gambar akan terhapus dari data produk sekaligus menghapus file pada direktori /public/img/products.
 
-## Laravel Sponsors
+**3. Menambahkan beberapa foto baru:** Dengan mengklik tombol "Choose files" maka user dapat memilih 1 atau lebih gambar untuk diupload dan dijadikan foto produk yang bersangkutan.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**4. Menghapus data produk:** Menghapus data produk beserta foto-foto dari produk yang bersangkutan yang ada di direktori /public/img/products.

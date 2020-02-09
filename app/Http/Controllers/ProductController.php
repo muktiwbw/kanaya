@@ -20,7 +20,7 @@ class ProductController extends Controller
     }
 
     public function create(){
-        $items = Product::orderBy('id', 'desc')->first()->id + 1;
+        $items = Product::count() > 0 ? Product::orderBy('id', 'desc')->first()->id + 1 : 1;
 
         if($items < 10){
             $items = '0000'.$items;
@@ -142,7 +142,7 @@ class ProductController extends Controller
 
         if(!$product->delete()) return redirect()->back()->with('message', 'Terjadi kesalahan menghapus data gambar!');
 
-        return redirect()->back()->with('message', 'Product berhasil dihapus!');
+        return redirect()->route('admin-products-list')->with('message', 'Product berhasil dihapus!');
     }
 
 }
