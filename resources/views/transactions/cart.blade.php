@@ -9,7 +9,7 @@
         <hr>
     </div>
 </div>
-@if($transaction)
+@if($transaction && $transaction->transactionDetails()->count() > 0)
 <div class="row">
     <div class="col-12">
         @foreach($transaction->transactionDetails as $item)
@@ -61,7 +61,17 @@
                         </div>
                     </div>
                 </div>
-                <hr>
+            </div>
+            <div class="col-12">
+                <form action="{{route('cart-add-note', ['id' => $item->id])}}" method="post"> 
+                    <div class="form-group">
+                        <label for="notes">Note</label>
+                        <textarea name="notes" class="form-control" id="notes" placeholder="Ukuran, warna, dll...">{{$item->notes}}</textarea>
+                    </div>
+                    <input class="btn btn-outline-success float-right" type="submit" value="Tambahkan Note">
+                    @method('PATCH')
+                    @csrf
+                </form>
             </div>
         </div>
         @endforeach
@@ -75,7 +85,7 @@
         </div>
         <div class="row">
             <div class="col-12 pt-2 pb-2">
-                <a href="#" class="btn btn-success btn-block"><h4><i class="fa fa-credit-card" aria-hidden="true"></i> Checkout</h4></a>
+                <a href="{{route('cart-checkout')}}" class="btn btn-success btn-block"><h4><i class="fa fa-credit-card" aria-hidden="true"></i> Checkout</h4></a>
             </div>
         </div>
     </div>

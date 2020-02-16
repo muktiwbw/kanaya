@@ -13,7 +13,6 @@ class ProductController extends Controller
 {
     public function all(){
         $products = Product::orderBy('updated_at', 'desc')->paginate(5);
-        // dd($products[2]->images);
         return view('products.all', [
             'products' => $products
         ]);
@@ -68,7 +67,7 @@ class ProductController extends Controller
                 'url' => $path,
                 'path' => $path,
                 'product_id' => $product->id,
-            ])) return redirect()->back()->with('message', 'Terjadi kesalahan menyimpan file gambar!');;
+            ])) return redirect()->back()->with('message', 'Terjadi kesalahan menyimpan file gambar!');
 
             $fileCount++;
         }

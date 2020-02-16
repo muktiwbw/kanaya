@@ -28,7 +28,10 @@
                 <hr>
             </div>
             <div class="col-12">
-                <a href="#" class="btn btn-outline-success btn-block"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</a>
+                <form action="{{route('cart-add', ['id' => $product->id])}}" method="post">
+                <button type="submit" class="btn btn-outline-success btn-block"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart!</button>
+                @csrf
+                </form>
             </div>
         </div>
     </div>

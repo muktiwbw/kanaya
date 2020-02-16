@@ -69,7 +69,7 @@
                 <div class="top-right links">
                     @if(Auth::guard('customers')->check() || Auth::guard('users')->check())
                         @if(Auth::guard('customers')->check())
-                            <a href="{{ url('/home') }}">Home</a>
+                            <a href="{{ route('catalog') }}">Catalog</a>
                         @elseif(Auth::guard('users')->check())
                             <a href="{{ route('admin-products-list') }}">Admin</a>
                         @endif

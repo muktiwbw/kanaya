@@ -32,6 +32,19 @@ Route::prefix('admin')->group(function(){
             // Proses Menghapus Data Produk
             Route::delete('{id}', 'ProductController@delete')->name('admin-products-delete');
         });
+
+        // Management Transaksi
+        Route::prefix('transactions')->group(function(){
+            
+            // Tampilan Halaman List Transaksi
+            Route::get('/', 'TransactionController@transactionAll')->name('admin-transaction-list');
+            
+            // Tampilan Halaman Transaksi
+            Route::get('{id}', 'TransactionController@transactionDetail')->name('admin-transaction-detail');
+            
+            // Proses Transaksi (approve/reject/diambil/dikembalikan)
+            Route::patch('{id}/{status}', 'TransactionController@transactionStatus')->name('admin-transaction-status');
+        });
         
         // Management User Admin (Hanya dapat diakses oleh SUPER ADMIN)
         Route::middleware('superadmin')->group(function(){
@@ -71,8 +84,14 @@ Route::middleware('customer')->group(function(){
     Route::prefix('cart')->group(function(){
 
         Route::get('/', 'TransactionController@cart')->name('cart');
+
+        Route::patch('addNote/{id}', 'TransactionController@addNoteToCart')->name('cart-add-note');
         
         Route::get('checkout', 'TransactionController@checkout')->name('cart-checkout');
+        
+        Route::get('checkout-page', 'TransactionController@checkoutPage')->name('checkout-page');
+        
+        Route::post('checkout-receipt', 'TransactionController@checkoutReceipt')->name('checkout-receipt');
         
         Route::post('{id}', 'TransactionController@addToCart')->name('cart-add');
 
@@ -81,6 +100,9 @@ Route::middleware('customer')->group(function(){
         Route::delete('{id}', 'TransactionController@deleteCart')->name('cart-delete');
 
     });
+
+    // List Semua Transaksi Customer
+    Route::get('transactions', 'TransactionController@customerTransactions')->name('customer-transactions');
 
 });
 

@@ -17,6 +17,7 @@ class CreateTransactionDetailsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('quantity')->default(0);
             $table->double('total')->default(0);
+            $table->text('notes')->nullable();
             $table->integer('status')->nullable();
             $table->unsignedBigInteger('transaction_id')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();

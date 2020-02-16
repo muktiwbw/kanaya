@@ -43,21 +43,13 @@
                 <form action="{{route('cart-add', ['id' => $product->id])}}" method="post">
                     <button style="font-size:20px;" type="submit" class="btn 
                     @if($product->available > 0) 
-                    @if(!Auth::guard('customers')->user()->transactions()->where('status', 0)->first()->transactionDetails()->where('product_id', $product->id)->first())
-                    btn-outline-success 
-                    @else
-                    btn-success
-                    @endif
+                    btn-outline-success
                     @else btn-error 
                     @endif btn-block" 
                     @if($product->available == 0) 
                     disabled 
                     @endif>
-                    @if(!Auth::guard('customers')->user()->transactions()->where('status', 0)->first()->transactionDetails()->where('product_id', $product->id)->first())
                     <i class="fa fa-cart-plus" aria-hidden="true"></i>
-                    @else
-                    {{Auth::guard('customers')->user()->transactions()->where('status', 0)->first()->transactionDetails()->where('product_id', $product->id)->first()->quantity}}
-                    @endif
                     </button>
                     @csrf
                 </form>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 use Auth;
 use App\Transaction;
@@ -22,6 +24,9 @@ class TransactionController extends Controller
     }
 
     public function cart(){
+        // If there's a transaction with status checkout, go to checkout page
+        if(Auth::guard('customers')->user()->transactions()->whereIn('status', [1,2])->first()) return redirect()->route('checkout-page');
+        
         // Show:
         // - Unfinished cart (must be only one)
         // - Creation date to now is not more than 1 day (status = 1)
@@ -31,6 +36,9 @@ class TransactionController extends Controller
     }
 
     public function addToCart($id, Request $request){ // Cart here is transaction in DB
+        // If there's a transaction with status checkout, go to checkout page
+        if(Auth::guard('customers')->user()->transactions()->whereIn('status', [1,2])->first()) return redirect()->route('checkout-page');
+        
         $product_id = $id;
 
         // Get the user logged in now
@@ -99,5 +107,116 @@ class TransactionController extends Controller
         $transactionDetail->delete();
 
         return redirect()->route('cart');
+    }
+
+    public function addNoteToCart($id, Request $request){
+        $transactionDetail = TransactionDetail::find($id);
+
+        $transactionDetail->notes = $request->notes;
+        $transactionDetail->save();
+
+        return redirect()->route('cart');
+    }
+
+    public function checkout(){
+        $transaction = Auth::guard('customers')->user()->transactions()->where('status', 0)->first();
+
+        $transaction->status = 1;
+        $transaction->save();
+
+        return redirect()->route('checkout-page');
+
+    }
+
+    public function checkoutPage(){
+        if(!Auth::guard('customers')->user()->transactions()->whereIn('status',[1,2])->first()) return redirect()->route('customer-transactions');
+        
+        $transaction = Auth::guard('customers')->user()->transactions()->whereIn('status',[1,2])->first();
+
+        return view('transactions.checkout', ['transaction' => $transaction]);
+    }
+
+    public function checkoutReceipt(Request $request){
+        $image = $request->file('image');
+        $transaction = Auth::guard('customers')->user()->transactions()->where('status', 1)->first();
+
+        try {
+            $path = Storage::putFileAs(
+                'receipts', $image, $transaction->id.'.'.$image->extension()
+            );       
+
+            $transaction->receipt = $path;
+            $transaction->save();              
+        } catch (\Throwable $error) {
+            return redirect()->back()->with('message', $error);
+        }
+
+        return redirect()->route('checkout-page');
+    }
+
+    public function transactionAll(){
+        $transactions = Transaction::where('status', '<>', 0)->orderBy('updated_at', 'desc')->paginate(10);
+
+        return view('transactions.list', [
+            'transactions' => $transactions
+        ]);
+    }
+
+    public function transactionDetail($id){
+        $transaction = Transaction::find($id);
+
+        return view('transactions.detail', [
+            'transaction' => $transaction
+        ]);
+    }
+
+    public function transactionStatus($id, $status, Request $request){
+        $transaction = Transaction::find($id);
+        
+        switch ($status) {
+            case 1:
+                $transaction->notes = 'Pembayaran ditolak karena tidak sesuai. Mohon untuk mengunggah ulang bukti pembayaran.';
+                $path = $transaction->receipt;
+                $transaction->receipt = null;
+                if(!Storage::delete($path) || !$transaction->save()) return redirect()->back()->with('message', 'Terjadi kesalahan menghapus gambar bukti pembayaran!');
+                break;
+
+            case 2:
+                foreach($transaction->transactionDetails as $item){
+                    $product = $item->product;
+                    $product->rent += $item->quantity;
+                    $product->available = $product->stock - $product->rent;
+                    $product->save();
+                }
+
+                $transaction->notes = Carbon::now().'|Pembayaran diterima. Silakan untuk mengambil barang pesanan di gerai kami.';
+                break;
+
+            case 3:
+                $transaction->notes = explode('|', $transaction->notes)[0];
+                break;
+
+            case 4:
+                foreach($transaction->transactionDetails as $item){
+                    $product = $item->product;
+                    $product->rent -= $item->quantity;
+                    $product->available = $product->stock - $product->rent;
+                    $product->save();
+                }
+                break;
+        }
+
+        $transaction->status = $status;
+        $transaction->save();
+
+        return redirect()->route('admin-transaction-list');
+    }
+
+    public function customerTransactions(){
+        $transactions = Auth::guard('customers')->user()->transactions()->where('status', '>=', 3)->get();
+
+        return view('transactions.customer', [
+            'transactions' => $transactions
+        ]);
     }
 }
