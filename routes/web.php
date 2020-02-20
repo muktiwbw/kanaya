@@ -54,6 +54,9 @@ Route::prefix('admin')->group(function(){
 
             // List User Admin
             Route::get('users', 'UserController@users')->name('admin-users-list');
+
+            // List User Customer
+            Route::get('customers', 'UserController@customers')->name('admin-customers-list');
         });
         
         // Management Data Customer

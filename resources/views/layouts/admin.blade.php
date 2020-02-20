@@ -13,7 +13,7 @@
                                     <h2 class="card-title">Hello, {{Auth::guard('users')->user()->name}}!</h2>
                                     <nav class="row">
                                         <div class="col-12"><a href="{{route('admin-products-list')}}" class="text-left btn btn-block btn-outline-dark" style="border:none;">Product</a></div>
-                                        <div class="col-12"><a href="#" class="text-left btn btn-block btn-outline-dark" style="border:none;">Users</a></div>
+                                        <div class="col-12"><a href="{{route('admin-users-list')}}" class="text-left btn btn-block btn-outline-dark" style="border:none;">Users</a></div>
                                         <div class="col-12"><a href="{{route('admin-transaction-list')}}" class="text-left btn btn-block btn-outline-dark" style="border:none;">Transactions</a></div>
                                         <div class="col-12"><a href="{{route('home')}}" class="text-left btn btn-block btn-outline-primary" style="border:none; margin-top:30px">Home</a></div>
                                         <div class="col-12"><a href="{{route('logout')}}" class="text-left btn btn-block btn-outline-danger" style="border:none;">Logout</a></div>
