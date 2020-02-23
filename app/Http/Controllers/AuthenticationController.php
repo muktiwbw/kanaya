@@ -57,8 +57,10 @@ class AuthenticationController extends Controller
             'address' => $request->address,
         ];
 
+        if($request->_guard == 'users') $data['status'] = 2;
+
         $registration = $request->_guard == 'users' ? User::create($data) : Customer::create($data);
 
-        return redirect()->route('view-login');
+        return $request->_guard == 'users' ? redirect()->route('admin-users-list') : redirect()->route('view-login');
     }
 }

@@ -16,7 +16,7 @@ class SuperAdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::guard('users')->user()->email != 'superadmin') return redirect()->back();
+        if(Auth::guard('users')->user()->status != 1) return redirect()->back();
         return $next($request);
     }
 }

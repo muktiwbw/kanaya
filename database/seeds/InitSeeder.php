@@ -16,7 +16,8 @@ class InitSeeder extends Seeder
         User::create([
             'name' => 'Super Admin',
             'email' => 'superadmin',
-            'password' => bcrypt('superadmin')
+            'password' => bcrypt('superadmin'),
+            'status' => 1
         ]);
     }
 }

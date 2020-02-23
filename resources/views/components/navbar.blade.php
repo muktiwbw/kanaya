@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="@if(Auth::guard('customers')->check()) container @else container-fluid @endif">
-        <a class="navbar-brand" href="#">Kanaya Kebaya</a>
+        <a class="navbar-brand" href="{{route('home')}}">Kanaya Kebaya</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -21,9 +21,16 @@
                 <li class="nav-item">
                     <a class="nav-link text-danger" href="{{route('logout')}}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
                 </li>
-                @else
+                @elseif(Auth::guard('users')->check())
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fa fa-user" aria-hidden="true"></i> {{Auth::guard('users')->user()->name}}</a>
+                </li>
+                @else
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('login')}}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('register')}}">Register</a>
                 </li>
                 @endif
             </ul>

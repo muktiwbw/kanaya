@@ -9,7 +9,7 @@ use App\User;
 class UserController extends Controller
 {
     public function users(){
-        $users = User::orderBy('updated_at', 'desc')->paginate(10);
+        $users = User::orderBy('status', 'asc')->orderBy('created_at', 'asc')->paginate(10);
 
         return view('users.users', ['users' => $users]);
     }

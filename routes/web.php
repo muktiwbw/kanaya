@@ -4,16 +4,36 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+// Catalog
+Route::get('catalog', 'TransactionController@catalog')->name('catalog');
+
+// Product Detail
+Route::get('product/{id}', 'TransactionController@detail')->name('product-detail');
+
+// Halaman Login Customer
+Route::middleware('guest:users', 'guest:customers')->get('login', 'AuthenticationController@loginView')->name('view-login');
+
+// Handling Login Customer
+Route::middleware('guest:users', 'guest:customers')->post('login', 'AuthenticationController@authenticate')->name('login');
+
+// Halaman Registrasi Customer
+Route::middleware('guest:users', 'guest:customers')->get('register', 'AuthenticationController@registerView')->name('view-register');
+
+// Handling Registrasi Customer dan Admin
+Route::post('register', 'AuthenticationController@register')->name('register');
+
+// Logout User Admin dan Customer
+Route::get('logout', 'AuthenticationController@logout')->name('logout');
+
+// Admin Routes
 Route::prefix('admin')->group(function(){
-    // Login User Admin
+    // Halaman Login Admin
     Route::middleware('guest:users', 'guest:customers')->get('login', 'AuthenticationController@adminLoginView')->name('view-admin-login');
     
     // Kumpulan route yang hanya dapat diakses oleh User Admin
     Route::middleware('user')->group(function() {
-
         // Management Produk
         Route::prefix('products')->group(function(){
-
             // Tampilan Halaman Membuat Produk
             Route::get('new', 'ProductController@create')->name('admin-products-create');
 
@@ -35,7 +55,6 @@ Route::prefix('admin')->group(function(){
 
         // Management Transaksi
         Route::prefix('transactions')->group(function(){
-            
             // Tampilan Halaman List Transaksi
             Route::get('/', 'TransactionController@transactionAll')->name('admin-transaction-list');
             
@@ -48,7 +67,6 @@ Route::prefix('admin')->group(function(){
         
         // Management User Admin (Hanya dapat diakses oleh SUPER ADMIN)
         Route::middleware('superadmin')->group(function(){
-
             // Membuat User Admin
             Route::get('create-user', 'AuthenticationController@adminCreateUserView')->name('view-admin-create-user');
 
@@ -64,61 +82,38 @@ Route::prefix('admin')->group(function(){
     });
 });
 
-// Logout User Admin dan Customer
-Route::get('logout', 'AuthenticationController@logout')->name('logout');
-
-// In Progress
-// ============================================================================================================================================
-// ============================================================================================================================================
-// ============================================================================================================================================
-// ============================================================================================================================================
-
-// Catalog
-Route::get('catalog', 'TransactionController@catalog')->name('catalog');
-
-Route::prefix('product')->group(function(){
-    Route::get('{id}', 'TransactionController@detail')->name('product-detail');
-});
-
+// Customer Routes
 Route::middleware('customer')->group(function(){
-
+    // Customer Profile
     Route::get('profile', 'CustomerController@profile')->name('profile');
-
-    Route::prefix('cart')->group(function(){
-
-        Route::get('/', 'TransactionController@cart')->name('cart');
-
-        Route::patch('addNote/{id}', 'TransactionController@addNoteToCart')->name('cart-add-note');
-        
-        Route::get('checkout', 'TransactionController@checkout')->name('cart-checkout');
-        
-        Route::get('checkout-page', 'TransactionController@checkoutPage')->name('checkout-page');
-        
-        Route::post('checkout-receipt', 'TransactionController@checkoutReceipt')->name('checkout-receipt');
-        
-        Route::post('{id}', 'TransactionController@addToCart')->name('cart-add');
-
-        Route::patch('{id}', 'TransactionController@updateCart')->name('cart-update');
-
-        Route::delete('{id}', 'TransactionController@deleteCart')->name('cart-delete');
-
-    });
 
     // List Semua Transaksi Customer
     Route::get('transactions', 'TransactionController@customerTransactions')->name('customer-transactions');
 
+    // Cart Routes
+    Route::prefix('cart')->group(function(){
+        // Halaman Cart
+        Route::get('/', 'TransactionController@cart')->name('cart');
+
+        // Edit notes ke cart
+        Route::patch('addNote/{id}', 'TransactionController@addNoteToCart')->name('cart-add-note');
+        
+        // Mengubah cart status menjadi checkout
+        Route::get('checkout', 'TransactionController@checkout')->name('cart-checkout');
+        
+        // Halaman Checkout
+        Route::get('checkout-page', 'TransactionController@checkoutPage')->name('checkout-page');
+        
+        // Upload Bukti Pembayaran
+        Route::post('checkout-receipt', 'TransactionController@checkoutReceipt')->name('checkout-receipt');
+        
+        // Menambahkan Item ke Cart
+        Route::post('{id}', 'TransactionController@addToCart')->name('cart-add');
+        
+        // Mengupdate Item Cart
+        Route::patch('{id}', 'TransactionController@updateCart')->name('cart-update');
+        
+        // Menghapus Item Cart
+        Route::delete('{id}', 'TransactionController@deleteCart')->name('cart-delete');
+    });
 });
-
-Route::middleware('guest:users', 'guest:customers')->post('login', 'AuthenticationController@authenticate')->name('login');
-
-Route::middleware('guest:users', 'guest:customers')->get('register', 'AuthenticationController@registerView')->name('view-register');
-Route::post('register', 'AuthenticationController@register')->name('register');
-
-Route::middleware('guest:users', 'guest:customers')->get('login', 'AuthenticationController@loginView')->name('view-login');
-
-/**
- * Todo:
- * 1. Konfirmasi dari sisi admin
- * 2. Pengembalian
- */
-
