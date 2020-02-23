@@ -12,7 +12,7 @@
                     <div class="col-12">
                         <form class="text-left" action="{{route('login')}}" method="post">
                             <div class="form-group">
-                                <label for="email">Email address</label>
+                                <label for="email">Username</label>
                                 <input type="text" name="email" class="form-control" id="email" autofocus>
                             </div>
                             <div class="form-group">

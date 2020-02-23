@@ -23,7 +23,7 @@
                 </li>
                 @elseif(Auth::guard('users')->check())
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-user" aria-hidden="true"></i> {{Auth::guard('users')->user()->name}}</a>
+                    <a class="nav-link" href="{{route('admin-products-list')}}"><i class="fa fa-user" aria-hidden="true"></i> {{Auth::guard('users')->user()->name}}</a>
                 </li>
                 @else
                 <li class="nav-item">

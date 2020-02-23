@@ -16,7 +16,7 @@
                                 <input type="text" name="name" class="form-control" id="name" autofocus>
                             </div>
                             <div class="form-group">
-                                <label for="email">Email address</label>
+                                <label for="email">Username</label>
                                 <input type="text" name="email" class="form-control" id="email">
                             </div>
                             <div class="form-group">
