@@ -28,6 +28,8 @@ class CreateTransactionsTable extends Migration
              * 4 = Returned
              * 5 = Overdue
              */
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('customers');

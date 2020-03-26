@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TransactionDetail extends Model
 {
-    protected $fillable = ['quantity', 'total', 'transaction_id', 'product_id'];
+    protected $fillable = ['quantity', 'total', 'notes', 'size', 'transaction_id', 'product_id'];
 
     public function transaction(){
         return $this->belongsTo('App\Transaction');

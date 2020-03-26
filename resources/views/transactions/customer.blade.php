@@ -26,7 +26,19 @@
                     <th>Status</th>
                 </tr>
                 @foreach($transactions as $transaction)
-                <tr>
+                <tr class="
+                    @switch($transaction->status)
+                        @case(3)
+                            table-warning
+                            @break
+                        @case(4)
+                            table-success
+                            @break
+                        @case(5)
+                            table-danger
+                            @break
+                    @endswitch
+                ">
                     <td>{{$loop->index+1}}</td>
                     <td>{{$transaction->trans_no}}</td>
                     <td>{{$transaction->transactionDetails()->sum('quantity')}}</td>
@@ -38,8 +50,8 @@
                         </ul>
                     </td>
                     <td>Rp {{number_format($transaction->transactionDetails()->sum('total'))}}</td>
-                    <td>{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $transaction->notes)->isoFormat('D MMMM YYYY')}}</td>
-                    <td>{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $transaction->notes)->add(2, 'day')->isoFormat('D MMMM YYYY')}}</td>
+                    <td>{{date('d F Y', strtotime($transaction->start_date))}}</td>
+                    <td>{{date('d F Y', strtotime($transaction->end_date))}}</td>
                     <td>
                         @switch($transaction->status)
                             @case(3)

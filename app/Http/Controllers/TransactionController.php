@@ -82,40 +82,46 @@ class TransactionController extends Controller
         return redirect()->route('cart');
     }
 
-    public function updateCart($id, Request $request){
-        $transactionDetail = TransactionDetail::whereHas('product', function($query) use ($id){
-            $query->where('id', $id);
-        })->first();
+    public function updateCart(Request $request){
+        foreach ($request['data']['items'] as $item) {
+            $transactionItem = TransactionDetail::find($item['id']);
 
-        if($request->new_quantity == 0){
-            $transactionDetail->delete();
-        }else{
-            $transactionDetail->quantity = $request->new_quantity;
-            $transactionDetail->total = $transactionDetail->quantity * $transactionDetail->product->price;
-    
-            $transactionDetail->save();
+            $transactionItem->update([
+                'size' => $item['size'],
+                'notes' => $item['notes'],
+                'quantity' => $item['quantity'],
+                'total' => $transactionItem->product->price * $item['quantity']
+            ]);
         }
 
-        return redirect()->route('cart');
+        $transaction = Auth::guard('customers')->user()->transactions()->where('status', 0)->first();
+        $transaction->update([
+            'start_date' => date('Y-m-d',strtotime($request['data']['dates']['start'])),
+            'end_date' => date('Y-m-d',strtotime($request['data']['dates']['end']))
+        ]);
+
+        return $transaction ? response()->json([
+            'status' => 200,
+            'data' => [
+                'transaction' => $transaction,
+                'transactionDetails' => $transaction->transactionDetails()->with('product')->get()
+            ]
+        ]) : response()->json([
+            'status' => 500,
+            'message' => 'Error updating data'
+        ]);
     }
 
     public function deleteCart($id){
-        $transactionDetail = TransactionDetail::whereHas('product', function($query) use ($id){
-            $query->where('id', $id);
-        })->first();
+        $transactionDetail = TransactionDetail::find($id)->delete();
 
-        $transactionDetail->delete();
-
-        return redirect()->route('cart');
-    }
-
-    public function addNoteToCart($id, Request $request){
-        $transactionDetail = TransactionDetail::find($id);
-
-        $transactionDetail->notes = $request->notes;
-        $transactionDetail->save();
-
-        return redirect()->route('cart');
+        return $transactionDetail ? response()->json([
+            'status' => 200,
+            'data' => $transactionDetail
+        ]) : response()->json([
+            'status' => 500,
+            'message' => 'Error deleting data'
+        ]);
     }
 
     public function checkout(){
@@ -155,6 +161,11 @@ class TransactionController extends Controller
     }
 
     public function transactionAll(){
+        // Inspect overdue transactions and change status to 5
+        Transaction::where('status', 3)->where('end_date', '<', date('Y-m-d'))->update([
+            'status' => 5
+        ]);
+
         $transactions = Transaction::where('status', '<>', 0)->orderBy('updated_at', 'desc')->paginate(10);
 
         return view('transactions.list', [
@@ -189,11 +200,11 @@ class TransactionController extends Controller
                     $product->save();
                 }
 
-                $transaction->notes = Carbon::now().'|Pembayaran diterima. Silakan untuk mengambil barang pesanan di gerai kami.';
+                $transaction->notes = 'Pembayaran diterima. Silakan untuk mengambil barang pesanan di gerai kami.';
                 break;
 
             case 3:
-                $transaction->notes = explode('|', $transaction->notes)[0];
+                $transaction->notes = 'Barang telah diambil oleh peminjam.';
                 break;
 
             case 4:
@@ -203,6 +214,8 @@ class TransactionController extends Controller
                     $product->available = $product->stock - $product->rent;
                     $product->save();
                 }
+
+                $transaction->notes = 'Barang telah dikembalikan oleh peminjam.';
                 break;
         }
 
@@ -213,7 +226,7 @@ class TransactionController extends Controller
     }
 
     public function customerTransactions(){
-        $transactions = Auth::guard('customers')->user()->transactions()->where('status', '>=', 3)->get();
+        $transactions = Auth::guard('customers')->user()->transactions()->where('status', '>=', 3)->orderBy('created_at', 'desc')->get();
 
         return view('transactions.customer', [
             'transactions' => $transactions

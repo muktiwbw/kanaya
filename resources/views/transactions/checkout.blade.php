@@ -11,15 +11,15 @@
     @if($transaction->status >= 2)
     <div class="col-12">
         <h5>Status</h5>
-        <p>{{explode('|', $transaction->notes)[1]}}</p>
+        <p>{{$transaction->notes}}</p>
     </div>
     <div class="col-12">
-        <h5>Pengambilan</h5>
-        <p>{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s', explode('|', $transaction->notes)[0])->isoFormat('D MMMM Y')}}</p>
+        <h5>Peminjaman</h5>
+        <p>{{date('d F Y', strtotime($transaction->start_date))}}</p>
     </div>
     <div class="col-12">
         <h5>Pengembalian</h5>
-        <p>{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s', explode('|', $transaction->notes)[0])->add(2, 'day')->isoFormat('D MMMM Y')}}</p>
+        <p>{{date('d F Y', strtotime($transaction->end_date))}}</p>
     </div>
     @endif
     @if(!$transaction->receipt)

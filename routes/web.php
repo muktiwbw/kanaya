@@ -95,8 +95,8 @@ Route::middleware('customer')->group(function(){
         // Halaman Cart
         Route::get('/', 'TransactionController@cart')->name('cart');
 
-        // Edit notes ke cart
-        Route::patch('addNote/{id}', 'TransactionController@addNoteToCart')->name('cart-add-note');
+        // Update Cart Item
+        Route::patch('/', 'TransactionController@updateCart')->name('cart-update');
         
         // Mengubah cart status menjadi checkout
         Route::get('checkout', 'TransactionController@checkout')->name('cart-checkout');
@@ -109,9 +109,6 @@ Route::middleware('customer')->group(function(){
         
         // Menambahkan Item ke Cart
         Route::post('{id}', 'TransactionController@addToCart')->name('cart-add');
-        
-        // Mengupdate Item Cart
-        Route::patch('{id}', 'TransactionController@updateCart')->name('cart-update');
         
         // Menghapus Item Cart
         Route::delete('{id}', 'TransactionController@deleteCart')->name('cart-delete');

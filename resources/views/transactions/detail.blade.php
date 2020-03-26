@@ -21,13 +21,27 @@
                     </div>
                     <div class="col-md-6 col-sm-6 col-6">
                         <div class="row">
-                            <div class="col-12">
-                                <strong>Kode Produk:</strong> {{$item->product->code}}
+                            <div class="col-6">
+                                <strong>Kode Produk</strong> 
+                            </div>
+                            <div class="col-6">
+                                {{$item->product->code}}
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-12">
-                                <strong>Quantity:</strong> {{$item->quantity}} pcs
+                            <div class="col-6">
+                                <strong>Quantity</strong> 
+                            </div>
+                            <div class="col-6">
+                                {{$item->quantity}} pcs
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <strong>Size</strong> 
+                            </div>
+                            <div class="col-6">
+                                {{$item->size}}
                             </div>
                         </div>
                         <div class="row">
@@ -56,7 +70,13 @@
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row pb-2">
+    <div class="col-12">
+        <h5>Waktu Peminjaman</h5>
+        <h6>{{date('d F Y', strtotime($transaction->start_date))}} - {{date('d F Y', strtotime($transaction->end_date))}}</h6>
+    </div>
+</div>
+<div class="row pb-2">
     <div class="col-12">
         <h5>Total Pembayaran</h5>
         <h6>Rp {{number_format($transaction->transactionDetails()->sum('total'))}}</h6>
