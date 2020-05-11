@@ -6,13 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class TransactionDetail extends Model
 {
-    protected $fillable = ['quantity', 'total', 'notes', 'size', 'transaction_id', 'product_id'];
+    protected $fillable = ['transaction_id', 'product_id'];
 
-    public function transaction(){
-        return $this->belongsTo('App\Transaction');
-    }
+    protected $hidden = ['transaction_id', 'product_id'];
 
-    public function product(){
-        return $this->belongsTo('App\Product');
-    }
 }

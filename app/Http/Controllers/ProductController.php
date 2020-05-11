@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use App\Product;
 use App\Image;
@@ -12,14 +13,49 @@ use App\Image;
 class ProductController extends Controller
 {
     public function all(){
-        $products = Product::orderBy('updated_at', 'desc')->paginate(5);
+        $products = DB::table('products')
+                    ->select('products.code', 
+                            'products.name', 
+                            'images.url', 
+                            'products.price')
+                    ->leftJoin('image_product', 'image_product.product_id', '=', 'products.id')
+                    ->leftJoin('images', 'image_product.image_id', '=', 'images.id')
+                    ->whereIn('images.id', function($query){
+                        $query->select(DB::raw('min(images.id) as img'))
+                        ->from('images')
+                        ->join('image_product', 'images.id', '=', 'image_product.image_id')
+                        ->join('products', 'products.id', '=', 'image_product.product_id')
+                        ->groupBy('products.code')
+                        ->get();
+                    })
+                    ->groupBy('products.code', 'products.name', 'images.url', 'products.price')
+                    ->orderBy('products.code', 'desc')
+                    ->paginate(5);    
+                    
+        $products->getCollection()->transform(function($el){
+            $el->sizes = DB::table('products')
+                    ->select('products.code',
+                            'products.size', 
+                            DB::raw('count(products.id) as stock'),
+                            DB::raw('count(case when transactions.status is null or transactions.status >= 4 then products.id end) as available'),
+                            DB::raw('count(case when transactions.status <= 3 then products.id end) as rent'))
+                    ->leftJoin('transaction_details', 'products.id', '=', 'transaction_details.product_id')
+                    ->leftJoin('transactions', 'transactions.id', '=', 'transaction_details.transaction_id')
+                    ->where('products.code', $el->code)
+                    ->groupBy('products.code', 'products.size')
+                    ->orderBy('products.code', 'desc')
+                    ->get();
+
+            return $el;
+        });
+        
         return view('products.all', [
             'products' => $products
         ]);
     }
 
     public function create(){
-        $items = Product::count() > 0 ? Product::orderBy('id', 'desc')->first()->id + 1 : 1;
+        $items = Product::groupBy('code')->count() > 0 ? intval(Product::select('code')->groupBy('code')->orderBy('code', 'desc')->first()->code) + 1 : 1;
 
         if($items < 10){
             $items = '0000'.$items;
@@ -35,111 +71,209 @@ class ProductController extends Controller
     }
 
     public function store(Request $request){
-        $product;
-
-        try {
-            $product = Product::create([
-                'code' => $request->code,
-                'name' => $request->name,
-                'price' => $request->price,
-                'notes' => $request->notes,
-                'stock' => $request->stock,
-                'rent' => $request->rent,
-                'available' => $request->stock - $request->rent,
-            ]);
-        } catch (\Throwable $error) {
-            return redirect()->back()->with('message', $error);
-        }
-
-        $fileCount = 1;
-
-        foreach ($request->file('images') as $image) {
-            try {
-                $path = Storage::putFileAs(
-                    'products', $image, $product->id.'-'.$fileCount.'.'.$image->extension()
-                );                        
-            } catch (\Throwable $error) {
-                return redirect()->back()->with('message', $error);
-            }
-
-            if(!Image::create([
-                'name' => $product->name,
-                'url' => $path,
-                'path' => $path,
-                'product_id' => $product->id,
-            ])) return redirect()->back()->with('message', 'Terjadi kesalahan menyimpan file gambar!');
-
-            $fileCount++;
-        }
+        $products = $this->reusable_store(
+            $request->stock,
+            $request->code,
+            $request->name,
+            $request->size,
+            $request->price,
+            $request->notes,
+            $request->file('images')
+        );
 
         return redirect()->route('admin-products-list');
     }
 
-    public function edit($id){
-        $product = Product::find($id);
+    private function reusable_store($stock, $code, $name, $size, $price, $notes, $imageFiles, $fileCount = 1, $storeImage = true){
+        $products = [];
 
-        return view('products.edit', [
-            'product' => $product
-        ]);
-    }
-
-    public function patch($id, Request $request){
-        $product = Product::find($id);
-
-        $product->code = $request->code;
-        $product->name = $request->name;
-        $product->price = $request->price;
-        $product->notes = $request->notes;
-        $product->stock = $request->stock;
-        $product->rent = $request->rent;
-        $product->available = $request->stock - $request->rent;
-
-        foreach($product->images()->whereIn('id', explode('|', $request->_images_selected))->get() as $image){
-            if(!Storage::delete($image->path) || !$image->delete()) return redirect()->back()->with('message', 'Terjadi kesalahan menghapus gambar!');
+        try {
+            for($i=0;$i<$stock;$i++){
+                $products[] = Product::create([
+                    'code' => $code,
+                    'name' => $name,
+                    'size' => $size,
+                    'price' => $price,
+                    'notes' => $notes,
+                ]);
+            }
+        } catch (\Throwable $error) {
+            return redirect()->back()->with('message', $error);
         }
 
-        foreach($product->images()->whereNotIn('id', explode('|', $request->_images_selected))->get() as $image){
-            $image->name = $request->name;
-            
-            if(!$image->save()) return redirect()->back()->with('message', 'Terjadi kesalahan menyimpan data gambar!');
-        }
-
-        if($request->file('images')){
-            $fileCount = $product->images()->count() == 0 ? 1 : intval(explode('-', explode('.', $product->images()->orderBy('id', 'desc')->first()->path)[0])[1]) + 1;
-            
-            foreach($request->file('images') as $image){
+        if($imageFiles && $storeImage && $stock > 0){
+    
+            foreach ($imageFiles as $imageFile) {
                 try {
                     $path = Storage::putFileAs(
-                        'products', $image, $product->id.'-'.$fileCount.'.'.$image->extension()
-                    );
+                        'products', $imageFile, $code.'-'.$name.'-'.$fileCount.'.'.$imageFile->extension()
+                    );                        
                 } catch (\Throwable $error) {
                     return redirect()->back()->with('message', $error);
-                }   
-                
-                if(!Image::create([
-                    'name' => $request->name,
+                }
+    
+                $image = Image::create([
+                    'name' => $name,
                     'url' => $path,
                     'path' => $path,
-                    'product_id' => $product->id,
-                ])) return redirect()->back()->with('message', 'Terjadi kesalahan menyimpan data gambar!');
+                ]);
+    
+                if(!$image) return redirect()->back()->with('message', 'Terjadi kesalahan menyimpan file gambar!');
+    
+                foreach ($products as $product) {
+                    $product->images()->save($image);
+                }
     
                 $fileCount++;
             }
         }
 
-        if(!$product->save()) return redirect()->back()->with('message', 'Terjadi kesalahan!');
+        return $products;
+    }
+
+    public function edit($code){
+        // $product = Product::where('code', $code)->first();
+        $product = DB::table('products')
+                    ->select('products.code', 
+                            'products.name', 
+                            'products.price', 
+                            'products.size', 
+                            'products.notes',
+                            DB::raw('count(products.id) as stock'),
+                            DB::raw('count(case when transactions.status is null or transactions.status >= 4 then products.id end) as available'),
+                            DB::raw('count(case when transactions.status <= 3 then products.id end) as rent'))
+                    ->leftJoin('transaction_details', 'products.id', '=', 'transaction_details.product_id')
+                    ->leftJoin('transactions', 'transactions.id', '=', 'transaction_details.transaction_id')
+                    ->where('products.code', $code)
+                    ->groupBy('products.code', 'products.name', 'products.price', 'products.size', 'products.notes')
+                    ->first();
+
+        $product_code = $product->code;
+        $images = Image::whereHas('products', function($query) use ($product_code){
+            $query->where('code', $product_code);
+        })->get();
+
+        $sizes = [
+            's' => Product::where('code', $code)->where('size', 's')->count(),
+            'm' => Product::where('code', $code)->where('size', 'm')->count(),
+            'l' => Product::where('code', $code)->where('size', 'l')->count(),
+        ];
+
+        return view('products.edit', [
+            'product' => $product,
+            'images' => $images,
+            'sizes' => $sizes
+        ]);
+    }
+
+    public function patch($code, Request $request){
+        $products = Product::where('code', $code)->get();
+
+        // Update basic data ==============================================================================================================
+        foreach ($products as $product) {
+            $product->name = $request->name;
+            $product->price = $request->price;
+            $product->notes = $request->notes;
+            $product->save();
+        }
+        // Update basic data end ==========================================================================================================
+
+        // Update images ==============================================================================================================
+        // Delete files and db records
+        // Get the first element as a representative
+        foreach($products[0]->images()->whereIn('images.id', explode('|', $request->_images_selected))->get() as $image){
+            if(!Storage::delete($image->path) || !$image->delete()) return redirect()->back()->with('message', 'Terjadi kesalahan menghapus gambar!');
+        }
+
+        // Rename undeleted image record in db
+        foreach($products[0]->images()->whereNotIn('images.id', explode('|', $request->_images_selected))->get() as $image){
+            $image->name = $request->name;
+            
+            if(!$image->save()) return redirect()->back()->with('message', 'Terjadi kesalahan menyimpan data gambar!');
+        }
+
+        // Save new files
+        $fileCount = $products[0]->images()->count() == 0 ? 1 : intval(explode('-', explode('.', $products[0]->images()->orderBy('id', 'desc')->first()->path)[0])[2]) + 1;
+    
+        if($request->file('images')){
+            foreach($request->file('images') as $image){
+                try {
+                    $path = Storage::putFileAs(
+                        'products', $image, $code.'-'.$request->name.'-'.$fileCount.'.'.$image->extension()
+                    );
+                } catch (\Throwable $error) {
+                    return redirect()->back()->with('message', $error);
+                }   
+                
+                $newImage = Image::create([
+                    'name' => $request->name,
+                    'url' => $path,
+                    'path' => $path,
+                ]);
+
+                if(!$newImage) return redirect()->back()->with('message', 'Terjadi kesalahan menyimpan data gambar!');
+
+                foreach($products as $product){
+                    $product->images()->save($newImage);
+                }
+    
+                $fileCount++;
+            }
+        }
+        // Update images end ==========================================================================================================
+
+        // Managing stocks ============================================================================================================
+        $currentSizeStock = Product::where('code', $request->code)->where('size', $request->size)->count();
+
+        if($request->stock > $currentSizeStock){
+            // Add
+            $addition = $request->stock - $currentSizeStock;
+            $newProducts = $this->reusable_store(
+                $addition,
+                $request->code,
+                $request->name,
+                $request->size,
+                $request->price,
+                $request->notes,
+                null,
+                null,
+                false
+            );
+
+            $oldProductImages = Product::where('code', $request->code)->whereNotIn('id', array_map(function($el){
+                return $el->id;
+            }, $newProducts))->first()->images;
+
+            foreach ($newProducts as $newProduct) {
+                foreach ($oldProductImages as $oldProductImage) {
+                    $newProduct->images()->save($oldProductImage);
+                }
+            }
+        }elseif($request->stock < $currentSizeStock){
+            // Delete
+            $deletion = $currentSizeStock - $request->stock;
+            $deletedStock = Product::where('code', $request->code)
+                                    ->where('size', $request->size)
+                                    ->whereDoesntHave('transactions', function($query){
+                                        $query->where('status', '<=', 3);
+                                    })
+                                    ->orderBy('id', 'desc')
+                                    ->limit($deletion)
+                                    ->delete();
+        }
+        // Managing stocks end ========================================================================================================
 
         return redirect()->back()->with('message', 'Data tersimpan!');
     }
 
-    public function delete($id){
-        $product = Product::find($id);
+    public function delete($code){
+        $products = Product::where('code', $code);
 
-        foreach($product->images as $image){
+        foreach($products->get()[0]->images as $image){
             if(!Storage::delete($image->path) || !$image->delete()) return redirect()->back()->with('message', 'Terjadi kesalahan menghapus gambar!');
         }
 
-        if(!$product->delete()) return redirect()->back()->with('message', 'Terjadi kesalahan menghapus data gambar!');
+        if(!$products->delete()) return redirect()->back()->with('message', 'Terjadi kesalahan menghapus data produk!');
 
         return redirect()->route('admin-products-list')->with('message', 'Product berhasil dihapus!');
     }

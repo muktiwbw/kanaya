@@ -17,8 +17,8 @@
     </div>
     @endif
     <div class="col-12">
-        <table class="table table-hover">
-            <tr>
+        <table class="table table-hover table-bordered">
+            <tr class="thead-dark">
                 <th>#</th>
                 <th>Role</th>
                 <th>Name</th>

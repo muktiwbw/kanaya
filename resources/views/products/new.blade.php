@@ -15,6 +15,14 @@
         <input type="text" name="name" class="form-control" id="name" autofocus>
     </div>
     <div class="form-group">
+        <label for="size">Ukuran</label>
+        <select name="size" id="size" class="form-control">
+            <option value="s">S</option>
+            <option value="m">M</option>
+            <option value="l">L</option>
+        </select>
+    </div>
+    <div class="form-group">
         <label for="price">Harga</label>
         <input type="number" name="price" class="form-control" id="price">
     </div>
@@ -25,10 +33,6 @@
     <div class="form-group">
         <label for="stock">Stok</label>
         <input type="number" name="stock" class="form-control" id="stock" value="0">
-    </div>
-    <div class="form-group">
-        <label for="rent">Sedang Dipinjam</label>
-        <input type="number" name="rent" class="form-control" id="rent" value="0">
     </div>
     <div class="form-group">
         <label for="images">Tambahkan Gambar</label>

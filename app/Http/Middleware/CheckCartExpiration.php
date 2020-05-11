@@ -4,8 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Auth;
+use App\Transaction;
+use Carbon\Carbon;
 
-class UserMiddleware
+class CheckCartExpiration
 {
     /**
      * Handle an incoming request.
@@ -16,7 +18,11 @@ class UserMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(!Auth::guard('users')->check()) return redirect()->route('login');
+        $transactions = Transaction::where('status', '<=', 1)->where('cart_expiration', '<', Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString());
+
+        if($transactions) $transactions->delete();
+
         return $next($request);
+
     }
 }

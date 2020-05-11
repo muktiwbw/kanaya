@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $fillable = ['code', 'name', 'price', 'notes', 'stock', 'rent', 'available'];
+    protected $fillable = ['code', 'name', 'price', 'notes', 'size', 'available'];
+
+    protected $hidden = ['pivot'];
 
     public function images(){
-        return $this->hasMany('App\Image');
+        return $this->belongsToMany('App\Image');
     }
 
-    public function transactionDetails(){
-        return $this->hasMany('App\TransactionDetail');
+    public function transactions(){
+        return $this->belongsToMany('App\Transaction', 'transaction_details');
     }
 }

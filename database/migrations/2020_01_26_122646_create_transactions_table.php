@@ -30,6 +30,7 @@ class CreateTransactionsTable extends Migration
              */
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
+            $table->timestamp('cart_expiration')->nullable();
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('customers');

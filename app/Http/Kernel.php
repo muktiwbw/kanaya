@@ -63,6 +63,7 @@ class Kernel extends HttpKernel
         'superadmin' => \App\Http\Middleware\SuperAdminMiddleware::class,
         'user' => \App\Http\Middleware\UserMiddleware::class,
         'customer' => \App\Http\Middleware\CustomerMiddleware::class,
+        'cart_expiration' => \App\Http\Middleware\CheckCartExpiration::class,
     ];
 
     /**

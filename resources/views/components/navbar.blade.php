@@ -16,7 +16,7 @@
                     <a class="nav-link" href="{{route('profile')}}"><i class="fa fa-user" aria-hidden="true"></i> {{Auth::guard('customers')->user()->name}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @if(Auth::guard('customers')->user()->transactions()->where('status',0)->first() && Auth::guard('customers')->user()->transactions()->where('status',0)->first()->transactionDetails()->count() > 0) text-danger @endif" href="{{route('cart')}}"><i class="fa fa-shopping-cart" aria-hidden="true"></i> My Cart</a>
+                    <a class="nav-link @if(Auth::guard('customers')->user()->transactions()->where('status',0)->first() && Auth::guard('customers')->user()->transactions()->where('status',0)->first()->products()->count() > 0) text-danger @endif" href="{{route('cart')}}"><i class="fa fa-shopping-cart" aria-hidden="true"></i> My Cart</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-danger" href="{{route('logout')}}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>

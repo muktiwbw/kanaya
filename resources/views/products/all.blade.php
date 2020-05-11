@@ -30,37 +30,51 @@
         @if($products->count() == 0)
         <h3>Belum ada produk yang ditambahkan</h3>
         @else
-        <table class="table table-hover">
-            <tr>
+        <table class="table table-hover table-bordered">
+            <tr class="thead-dark">
                 <th>#</th>
                 <th>Code</th>
                 <th>Name</th>
                 <th>Preview</th>
                 <th>Price</th>
+                <th>Size</th>
                 <th>Stock</th>
                 <th>Available</th>
                 <th>Rent Process</th>
-                <th>Created At</th>
-                <th>Updated At</th>
             </tr>
             @foreach($products as $product)
             <tr>
                 <td>{{$loop->index+1}}</td>
                 <td>{{$product->code}}</td>
-                <td><a href="{{route('admin-products-edit', ['id' => $product->id])}}">{{$product->name}}</a></td>
+                <td><a href="{{route('admin-products-edit', ['code' => $product->code])}}">{{$product->name}}</a></td>
                 <td>
-                    @if($product->images()->first())
-                    <img style="border-style: none;" width="100" src="{{asset('img/'.$product->images()->first()->url)}}" alt="{{$product->name}}">
+                    @if($product->url)
+                    <img style="border-style: none;" width="100" src="{{asset('img/'.$product->url)}}" alt="{{$product->name}}">
                     @else
                     Tidak ada gambar
                     @endif
                 </td>
                 <td>Rp {{number_format($product->price)}}</td>
-                <td>{{$product->stock}}</td>
-                <td>{{$product->available}}</td>
-                <td>{{$product->rent}}</td>
-                <td>{{date_format($product->created_at,"d M Y")}}</br>{{date_format($product->created_at,"H:i")}}</td>
-                <td>{{date_format($product->updated_at,"d M Y")}}</br>{{date_format($product->updated_at,"H:i")}}</td>
+                <td>
+                    @foreach($product->sizes as $size)
+                    ({{strtoupper($size->size)}}) @if(!$loop->last) <br> @endif
+                    @endforeach
+                </td>
+                <td>
+                    @foreach($product->sizes as $size)
+                    {{$size->stock}} @if(!$loop->last) <br> @endif
+                    @endforeach
+                </td>
+                <td>
+                    @foreach($product->sizes as $size)
+                    {{$size->available}} @if(!$loop->last) <br> @endif
+                    @endforeach
+                </td>
+                <td>
+                    @foreach($product->sizes as $size)
+                    {{$size->rent}} @if(!$loop->last) <br> @endif
+                    @endforeach
+                </td>
             </tr>
             @endforeach
         </table>

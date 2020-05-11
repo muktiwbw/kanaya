@@ -67,23 +67,49 @@
                 <h1>{{$product->name}}</h1>
             </div>
             <div class="col-12">
-                <h6>Description</h6>
                 <p>{{$product->notes}}</p>
                 <hr>
             </div>
             <div class="col-12">
-                <h6>Price</h6>
+                <h6>Harga sewa</h6>
                 <p>Rp {{number_format($product->price)}}</p>
                 <hr>
             </div>
             <div class="col-12">
-                <h6>Available</h6>
-                <p>{{$product->available}}</p>
-                <hr>
-            </div>
-            <div class="col-12">
-                <form action="{{route('cart-add', ['id' => $product->id])}}" method="post">
-                <button type="submit" class="btn btn-outline-success btn-block"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart!</button>
+                <form action="{{route('cart-add', ['code' => $product->code])}}" method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <h6>Ukuran</h6>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <select name="size" id="size" class="form-control">
+                                            @foreach($product->sizes as $size)
+                                            <option value="{{$size->size}}" class="size-index" available-data-value="{{$size->available}}">{{strtoupper($size->size)}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <h6>Jumlah</h6>
+                        </div>
+                        <div class="col-4">
+                            <input id="quantity" name="quantity" type="number" min="1" @if($product->sizes[0]->available < 5) max="{{$product->sizes[0]->stock}}" @else max="5" @endif class="form-control" value="1">
+                        </div>
+                        <div class="col-12 mb-4">
+                            Stok barang: <strong><span id="available">{{$product->sizes[0]->stock}}</span></strong>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-outline-success btn-block"><i class="fa fa-cart-plus" aria-hidden="true"></i> Tambahkan ke keranjang</button>
                 @csrf
                 </form>
             </div>

@@ -8,20 +8,6 @@
         <h1><i class="fa fa-credit-card" aria-hidden="true"></i> Checkout</h1>
         <hr>
     </div>
-    @if($transaction->status >= 2)
-    <div class="col-12">
-        <h5>Status</h5>
-        <p>{{$transaction->notes}}</p>
-    </div>
-    <div class="col-12">
-        <h5>Peminjaman</h5>
-        <p>{{date('d F Y', strtotime($transaction->start_date))}}</p>
-    </div>
-    <div class="col-12">
-        <h5>Pengembalian</h5>
-        <p>{{date('d F Y', strtotime($transaction->end_date))}}</p>
-    </div>
-    @endif
     @if(!$transaction->receipt)
     <div class="col-12">
         <h4>Petunjuk</h4>
@@ -33,7 +19,7 @@
         <h5>Atas Nama</h5>
         <p>Kanaya Kebaya</p>
         <h5>Total Pembayaran</h5>
-        <p>Rp {{number_format($transaction->transactionDetails->sum('total'))}}</p>
+        <p>Rp {{number_format($transaction->products()->sum('price'))}}</p>
     </div>
     <div class="col-12">
         <form action="{{route('checkout-receipt')}}" method="post" enctype="multipart/form-data">
@@ -49,6 +35,19 @@
     <div class="col-12">
         <h4>Status</h4>
         <h5>Pembayaran anda sedang diproses</h5>
+    </div>
+    @else
+    <div class="col-12">
+        <h5>Status</h5>
+        <p>{{$transaction->notes}}</p>
+    </div>
+    <div class="col-12">
+        <h5>Peminjaman</h5>
+        <p>{{date('d F Y', strtotime($transaction->start_date))}}</p>
+    </div>
+    <div class="col-12">
+        <h5>Pengembalian</h5>
+        <p>{{date('d F Y', strtotime($transaction->end_date))}}</p>
     </div>
     @endif
 </div>

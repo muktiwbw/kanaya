@@ -1,16 +1,29 @@
-@extends('layouts.default')
+@extends('layouts.admin')
 
-@section('title', 'Transaksi')
+@section('title', 'Daftar Transaksi Selesai')
 
-@section('default-content')
+@section('admin-title', 'Daftar Transaksi Selesai')
+
+@section('admin-content')
 <div class="row">
-    <div class="col-12">
-        <h1><i class="fa fa-credit-card" aria-hidden="true"></i> Transaksi</h1>
-        <hr>
+    <div class="col-12" style="margin-bottom: 15px">
+        <div class="row">
+            <div class="col-12 text-right">
+            @if($transactions->count() > 0)
+                @if(!$transactions->onFirstPage())<a href="{{$transactions->url(1)}}" class="btn btn-dark"><<</a>
+                <a href="{{$transactions->previousPageUrl()}}" class="btn btn-dark"><</a>@endif
+                @for($i=0;$i<$transactions->lastPage();$i++)
+                    <a href="{{$transactions->url($i+1)}}" class="btn @if($transactions->currentPage() == $i+1) btn-dark @else btn-outline-dark @endif">{{$i+1}}</a>
+                @endfor
+                @if($transactions->hasMorePages())<a href="{{$transactions->nextPageUrl()}}" class="btn btn-dark">></a>
+                <a href="{{$transactions->url($transactions->lastPage())}}" class="btn btn-dark">>></a>@endif
+            @endif
+            </div>
+        </div>
     </div>
 </div>
 <div class="row">
-<div class="col-12">
+    <div class="col-12">
         @if($transactions->count() == 0)
             <h3>Belum ada transaksi yang masuk</h3>
             @else
@@ -21,7 +34,7 @@
                     <th>Customer</th>
                     <th>Item</th>
                     <th>Jumlah Item</th>
-                    <th>Total (Rp)</th>
+                    <th>Total</th>
                     <th>Status</th>
                     <th>Mulai</th>
                     <th>Selesai</th>
@@ -38,8 +51,8 @@
                         @endforeach
                         </ul>
                     </td>
-                    <td>{{$transaction->quantity}}</td>
-                    <td>{{number_format($transaction->total)}}</td>
+                    <td>{{$transaction->transactionLogs()->count()}}</td>
+                    <td>Rp {{number_format($transaction->transactionLogs()->sum('price'))}}</td>
                     <td>
                         @switch($transaction->status)
                             @case(0)
@@ -69,6 +82,17 @@
             </table>
             @endif
         </div>
+    </div>
+    <div class="col-12 text-right">
+    @if($transactions->count() > 0)
+        @if(!$transactions->onFirstPage())<a href="{{$transactions->url(1)}}" class="btn btn-dark"><<</a>
+        <a href="{{$transactions->previousPageUrl()}}" class="btn btn-dark"><</a>@endif
+        @for($i=0;$i<$transactions->lastPage();$i++)
+            <a href="{{$transactions->url($i+1)}}" class="btn @if($transactions->currentPage() == $i+1) btn-dark @else btn-outline-dark @endif">{{$i+1}}</a>
+        @endfor
+        @if($transactions->hasMorePages())<a href="{{$transactions->nextPageUrl()}}" class="btn btn-dark">></a>
+        <a href="{{$transactions->url($transactions->lastPage())}}" class="btn btn-dark">>></a>@endif
+    @endif
     </div>
 </div>
 @endsection

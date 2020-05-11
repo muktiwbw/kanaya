@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Transactions')
+@section('title', 'Daftar Transaksi')
 
 @section('admin-title', 'Daftar Transaksi')
 
@@ -27,8 +27,8 @@
         @if($transactions->count() == 0)
             <h3>Belum ada transaksi yang masuk</h3>
             @else
-            <table class="table table-hover">
-                <tr>
+            <table class="table table-hover table-bordered">
+                <tr class="thead-dark">
                     <th>#</th>
                     <th>Transaction Code</th>
                     <th>Customer</th>
@@ -64,8 +64,8 @@
                     <td>{{$loop->index+1}}</td>
                     <td><a href="{{route('admin-transaction-detail', ['id' => $transaction->id])}}">{{$transaction->trans_no}}</a></td>
                     <td>{{$transaction->customer->name}}</td>
-                    <td>{{$transaction->transactionDetails()->sum('quantity')}}</td>
-                    <td>Rp {{number_format($transaction->transactionDetails()->sum('total'))}}</td>
+                    <td>{{$transaction->products()->count()}}</td>
+                    <td>Rp {{number_format($transaction->products()->sum('price'))}}</td>
                     <td>
                         @switch($transaction->status)
                             @case(0)

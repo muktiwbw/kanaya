@@ -32,12 +32,10 @@ class AuthenticationController extends Controller
     }
 
     public function logout(){
-        $redirect = Auth::guard('users')->check() ? 'view-admin-login' : 'view-login';
-
         Auth::guard('users')->logout();
         Auth::guard('customers')->logout();
 
-        return redirect()->route($redirect);
+        return redirect()->route('view-login');
     }
 
     public function registerView(){

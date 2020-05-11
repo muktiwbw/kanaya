@@ -7,47 +7,50 @@
 @section('admin-content')
 <div class="row">
     <div class="col-6">
-        @foreach($transaction->transactionDetails as $item)
+        @foreach($transaction->products as $item)
         <div class="row" style="margin-bottom: 20px;">
-            <div class="col-12">
-                <h5>{{$item->product->name}}</h5>
+            <div class="col-6">
+                <a href="/product/{{$item->code}}"><h5 class="mb-4">{{$item->name}}</h5></a>
             </div>
             <div class="col-12">
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-6" style="height: 100px; overflow: hidden;">
-                        @if($item->product->images()->first())
-                        <img class="mw-100" src="{{asset('img/'.$item->product->images()->first()->path)}}" alt="{{$item->product->name}}">
+                        @if($item->url)
+                        <img class="mw-100" src="{{asset('img/'.$item->url)}}" alt="{{$item->url}}">
                         @endif
                     </div>
                     <div class="col-md-6 col-sm-6 col-6">
                         <div class="row">
                             <div class="col-6">
-                                <strong>Kode Produk</strong> 
+                                <h5>Kode Produk</h5> 
                             </div>
                             <div class="col-6">
-                                {{$item->product->code}}
+                                <h5>[ {{$item->code}} ]</h5>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <strong>Quantity</strong> 
-                            </div>
-                            <div class="col-6">
-                                {{$item->quantity}} pcs
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <strong>Size</strong> 
-                            </div>
-                            <div class="col-6">
-                                {{$item->size}}
-                            </div>
+                            <div class="col-12"><hr></div>
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <h6>Notes</h6>
-                                <p>{{$item->notes}}</p>
+                                <strong>Ukuran</strong> 
+                            </div>
+                            <div class="col-12">
+                                <ul>
+                                    @foreach($item->sizes as $size)
+                                    <li>
+                                        <div class="row">
+                                            <div class="col-6">{{strtoupper($size->size)}}</div>
+                                            <div class="col-6">{{$size->quantity}} pcs</div>
+                                        </div>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                                <hr>
+                            </div>
+                            <div class="col-12 text-right">
+                                <strong>{{$item->total_count}} x Rp {{number_format($item->price)}}</strong>
+                            </div>
+                            <div class="col-12 text-right">
+                                <strong>= Rp {{number_format($item->total_price)}}</strong>
                             </div>
                         </div>
                     </div>
@@ -73,13 +76,13 @@
 <div class="row pb-2">
     <div class="col-12">
         <h5>Waktu Peminjaman</h5>
-        <h6>{{date('d F Y', strtotime($transaction->start_date))}} - {{date('d F Y', strtotime($transaction->end_date))}}</h6>
+        <strong>{{date('d F Y', strtotime($transaction->start_date))}} - {{date('d F Y', strtotime($transaction->end_date))}}</strong>
     </div>
 </div>
 <div class="row pb-2">
     <div class="col-12">
         <h5>Total Pembayaran</h5>
-        <h6>Rp {{number_format($transaction->transactionDetails()->sum('total'))}}</h6>
+        <strong>Rp {{number_format($transaction->products()->sum('price'))}}</strong>
     </div>
 </div>
 @if($transaction->status == 1)

@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Image extends Model
 {
-    protected $fillable = ['name', 'url', 'path', 'product_id'];
+    protected $fillable = ['name', 'url', 'path'];
 
-    public function product(){
-        return $this->belongsTo('App\Product');
+    protected $hidden = ['pivot'];
+
+    public function products(){
+        return $this->belongsToMany('App\Product');
     }
 }

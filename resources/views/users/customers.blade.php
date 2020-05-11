@@ -12,8 +12,8 @@
 @endcomponent
 <div class="row">
     <div class="col-12">
-        <table class="table table-hover">
-            <tr>
+        <table class="table table-hover table-bordered">
+            <tr class="thead-dark">
                 <th>#</th>
                 <th>Name</th>
                 <th>Email</th>
