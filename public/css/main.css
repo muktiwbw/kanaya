@@ -14,17 +14,17 @@
   }
 
 /* Bootstrap extended */
-.nav-link {
+.nav-link.admin-page-nav-link {
     color: black;
     transition: ease-in-out 100ms;
 }
 
-.nav-link:hover {
+.nav-link.admin-page-nav-link:hover {
     color: rgb(70, 70, 70);
     border-bottom: medium solid rgb(70, 70, 70);
 }
 
-.nav-link.active {
+.nav-link.admin-page-nav-link.active {
     font-weight: bolder;
     border-bottom: medium solid rgb(70, 70, 70);
 }
@@ -77,7 +77,7 @@ body {
 .cb.cb-outline:hover {
     background: var(--font-red) !important;
     background-color: var(--font-red) !important;
-    border: none !important;
+    border: medium solid var(--font-red) !important;
     color: white !important;
 }
 
