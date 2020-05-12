@@ -38,16 +38,18 @@ class TransactionController extends Controller
     
     public function catalog(){
         $products = $this->getAllProducts()
-                        ->get()
-                        ->transform(function($el){
-                            $el->sizes = DB::table('products')
-                                            ->select('size', DB::raw('count(id) as stock'))
-                                            ->where('code', $el->code)
-                                            ->groupBy('size')
-                                            ->orderBy('size', 'desc')
-                                            ->get();
-                            return $el;
-                        });
+                        ->paginate(20);
+
+        $products->getCollection()
+                ->transform(function($el){
+                    $el->sizes = DB::table('products')
+                                    ->select('size', DB::raw('count(id) as stock'))
+                                    ->where('code', $el->code)
+                                    ->groupBy('size')
+                                    ->orderBy('size', 'desc')
+                                    ->get();
+                    return $el;
+                });
 
         return view('products.catalog', ['products' => $products]);
     }
