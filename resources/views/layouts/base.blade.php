@@ -20,11 +20,6 @@
 <body>
     @component('components.navbar')
     @endcomponent
-
-    @if(Auth::guard('customers')->check())
-    @component('components.main-nav')
-    @endcomponent
-    @endif
     
     @yield('content')
 

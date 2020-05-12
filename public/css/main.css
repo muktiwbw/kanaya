@@ -4,6 +4,13 @@
 
     /* Fonts */
     --main-font: 'Muli', sans-serif;
+
+    /* Font Colors */
+    --font-red: #ee3333;
+    --font-blue: #1c4966;
+
+    /* Cover Image */
+    --cover-image: url('../img/assets/image/cover.jpg');
   }
 
 body {
@@ -17,16 +24,45 @@ body {
     height: 30px;
 }
 
+.cover-image {
+    background-image: var(--cover-image);
+    background-size: 100vw;
+    background-position: center center;
+    background-repeat: no-repeat;
+    object-fit: cover;
+    height: 77vh;
+}
+
 /* Buttons */
 .cb {
-	background:#ee3333;
-	background-color:#ee3333;
+	background: var(--font-red);
+	background-color: var(--font-red);
 	border-radius:42px;
 	display:inline-block;
 	cursor:pointer;
 	color:#ffffff;
-	padding:16px 31px;
-	text-decoration:none;
+	padding:10px 40px;
+	text-decoration:none !important;
+}
+
+.cb:hover {
+    color:#ffffff !important;
+}
+
+.cb.cb-outline {
+    background: none;
+    background-color: none;
+    border: medium solid var(--font-red);
+    color: var(--font-red);
+    font-weight: bold;
+    transition: ease-in-out 300ms;
+}
+
+.cb.cb-outline:hover {
+    background: var(--font-red) !important;
+    background-color: var(--font-red) !important;
+    border: none !important;
+    color: white !important;
 }
 
 .cb.cb-block {
@@ -35,13 +71,13 @@ body {
 }
 
 .cb.cb-red {
-    background:#ee3333;
-    background-color:#ee3333;
+    background: var(--font-red);
+    background-color: var(--font-red);
 }
 
 .cb.cb-blue {
-    background:#1c4966;
-	background-color:#1c4966;
+    background: var(--font-blue);
+	background-color: var(--font-blue);
 }
 
 /* Content Space */

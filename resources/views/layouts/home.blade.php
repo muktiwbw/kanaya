@@ -1,7 +1,8 @@
 @extends('layouts.base')
 
 @section('content')
-<div class="container content-section pt-5">
+
+<div class="container-fluid content-section">
     @yield('default-content')
 </div>
 @endsection
