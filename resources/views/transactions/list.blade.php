@@ -1,10 +1,9 @@
-@extends('layouts.admin')
+@extends('layouts.default')
 
 @section('title', 'Daftar Transaksi')
 
-@section('admin-title', 'Daftar Transaksi')
-
-@section('admin-content')
+@section('default-content')
+@component('components.admin-page-navigation', ['nav_transaction' => 'active'])@endcomponent
 <div class="row">
     <div class="col-12" style="margin-bottom: 15px">
         <div class="row">

@@ -1,15 +1,10 @@
-@extends('layouts.admin')
+@extends('layouts.default')
 
 @section('title', 'Daftar Admin')
 
-@section('admin-title', 'Daftar Admin')
-
-@section('admin-content')
-
-@component('components.user-navbar')
-    @slot('admin', 'active')
-    @slot('customer')
-@endcomponent
+@section('default-content')
+@component('components.admin-page-navigation', ['nav_user' => 'active'])@endcomponent
+@component('components.user-navbar', ['usr_admin' => 'active'])@endcomponent
 <div class="row">
     @if(Auth::guard('users')->user()->status == 1)
     <div class="col-12 text-right pt-2 pb-2">

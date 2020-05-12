@@ -10,8 +10,24 @@
     --font-blue: #1c4966;
 
     /* Cover Image */
-    --cover-image: url('../img/assets/image/cover.jpg');
+    --cover-image: url('/img/assets/image/cover.jpg');
   }
+
+/* Bootstrap extended */
+.nav-link {
+    color: black;
+    transition: ease-in-out 100ms;
+}
+
+.nav-link:hover {
+    color: rgb(70, 70, 70);
+    border-bottom: medium solid rgb(70, 70, 70);
+}
+
+.nav-link.active {
+    font-weight: bolder;
+    border-bottom: medium solid rgb(70, 70, 70);
+}
 
 body {
     font-family: var(--main-font);

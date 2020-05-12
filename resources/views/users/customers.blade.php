@@ -1,15 +1,10 @@
-@extends('layouts.admin')
+@extends('layouts.default')
 
 @section('title', 'Daftar Customer')
 
-@section('admin-title', 'Daftar Customer')
-
-@section('admin-content')
-
-@component('components.user-navbar')
-    @slot('admin')
-    @slot('customer', 'active')
-@endcomponent
+@section('default-content')
+@component('components.admin-page-navigation', ['nav_user' => 'active'])@endcomponent
+@component('components.user-navbar', ['usr_customer' => 'active'])@endcomponent
 <div class="row">
     <div class="col-12">
         <table class="table table-hover table-bordered">

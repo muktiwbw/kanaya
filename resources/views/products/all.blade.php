@@ -1,10 +1,9 @@
-@extends('layouts.admin')
+@extends('layouts.default')
 
 @section('title', 'Products')
 
-@section('admin-title', 'Daftar Produk')
-
-@section('admin-content')
+@section('default-content')
+@component('components.admin-page-navigation', ['nav_product' => 'active'])@endcomponent
 <div class="row">
     <div class="col-12" style="margin-bottom: 15px">
         <div class="row">

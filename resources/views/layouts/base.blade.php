@@ -18,12 +18,12 @@
     @yield('extra-script')
 </head>
 <body>
-    @component('components.navbar')
-    @endcomponent
+    @component('components.navbar')@endcomponent
     
     @yield('content')
 
-    @component('components.footer')
-    @endcomponent
+    @if(Auth::guard('customers')->check())
+    @component('components.footer')@endcomponent
+    @endif
 </body>
 </html>
