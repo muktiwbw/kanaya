@@ -4,7 +4,7 @@
 
 @section('auth-content')
 <div class="row">
-    <div class="col-6 offset-3 text-center" style="margin-top:15%;">
+    <div class="col-6 offset-3 text-center" style="margin-top:15vh;">
         <div class="card">
             <div class="card-body">
                 <h1 id="card-title" class="card-title">Customer Login</h1>

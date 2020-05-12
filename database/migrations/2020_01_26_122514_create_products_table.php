@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->double('price');
             $table->string('size', 3);
-            $table->string('category');
+            $table->string('category')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
         });

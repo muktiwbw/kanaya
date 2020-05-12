@@ -29,14 +29,14 @@
                     <a class="nav-link" href="{{Auth::guard('customers')->check() ? route('profile') : route('admin-products-list')}}"><i class="fa fa-user" aria-hidden="true"></i> {{Auth::guard('customers')->check() ? explode(' ', Auth::guard('customers')->user()->name)[0] : explode(' ', Auth::guard('users')->user()->name)[0]}}</a>
                 </li>
                 <li class="nav-item ml-1">
-                    <a class="nav-link text-danger" href="{{route('logout')}}"><i class="fa fa-sign-out" aria-hidden="true"></i> Keuar</a>
+                    <a class="nav-link text-danger" href="{{route('logout')}}"><i class="fa fa-sign-out" aria-hidden="true"></i> Keluar</a>
                 </li>
                 @else
                 <li class="nav-item mx-1">
-                    <a class="nav-link" href="{{route('login')}}">Login</a>
+                    <a class="nav-link" href="{{route('login')}}">Masuk</a>
                 </li>
                 <li class="nav-item ml-1">
-                    <a class="nav-link" href="{{route('register')}}">Register</a>
+                    <a class="nav-link" href="{{route('register')}}">Daftar</a>
                 </li>
                 @endif
             </ul>
