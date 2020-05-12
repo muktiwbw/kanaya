@@ -19,28 +19,17 @@ class TransactionController extends Controller
 {
     // public section
     public function catalog(){
-        $products = Product::select('products.code', 'products.name', 'products.price', 'images.url')
-                            ->leftJoin('image_product', 'image_product.product_id', '=', 'products.id')
-                            ->leftJoin('images', 'image_product.image_id', '=', 'images.id')
-                            ->whereIn('images.id', function($query){
-                                $query->select(DB::raw('min(images.id) as img'))
-                                ->from('images')
-                                ->leftJoin('image_product', 'images.id', '=', 'image_product.image_id')
-                                ->leftJoin('products', 'products.id', '=', 'image_product.product_id')
-                                ->groupBy('products.code')
-                                ->get();
-                            })
-                            ->groupBy('products.code', 'products.name', 'products.price', 'images.url')
-                            ->get()
-                            ->transform(function($el){
-                                $el->sizes = DB::table('products')
-                                                ->select('size', DB::raw('count(id) as stock'))
-                                                ->where('code', $el->code)
-                                                ->groupBy('size')
-                                                ->orderBy('size', 'desc')
-                                                ->get();
-                                return $el;
-                            });
+        $products = $this->getAllProducts()
+                        ->get()
+                        ->transform(function($el){
+                            $el->sizes = DB::table('products')
+                                            ->select('size', DB::raw('count(id) as stock'))
+                                            ->where('code', $el->code)
+                                            ->groupBy('size')
+                                            ->orderBy('size', 'desc')
+                                            ->get();
+                            return $el;
+                        });
 
         return view('products.catalog', ['products' => $products]);
     }
@@ -63,9 +52,33 @@ class TransactionController extends Controller
         $images = Product::where('products.code', $code)->first()->images;
 
         $product->setAttribute('sizes', $sizes);
-        $product->setAttribute('images', $images);                            
+        $product->setAttribute('images', $images);          
+        
+        // Totally random recommendations
+        $codes = Product::select('code')->groupBy('code')->inRandomOrder()->get();
 
-        return view('products.detail', ['product' => $product]);
+        $recommendations = $this->getAllProducts()
+                                ->where('code', '<>', $code)
+                                ->inRandomOrder()
+                                ->limit(4)
+                                ->get();
+
+        return view('products.detail', ['product' => $product, 'recommendations' => $recommendations]);
+    }
+
+    private function getAllProducts(){
+        return Product::select('products.code', 'products.category', 'products.name', 'products.price', 'images.url')
+                        ->leftJoin('image_product', 'image_product.product_id', '=', 'products.id')
+                        ->leftJoin('images', 'image_product.image_id', '=', 'images.id')
+                        ->whereIn('images.id', function($query){
+                            $query->select(DB::raw('min(images.id) as img'))
+                            ->from('images')
+                            ->leftJoin('image_product', 'images.id', '=', 'image_product.image_id')
+                            ->leftJoin('products', 'products.id', '=', 'image_product.product_id')
+                            ->groupBy('products.code')
+                            ->get();
+                        })
+                        ->groupBy('products.code', 'products.category', 'products.name', 'products.price', 'images.url');
     }
 
     private function getLastItemQueue($transaction){

@@ -43,7 +43,7 @@
     }
 </script>
 <div class="row">
-    <div class="col-4">
+    <div class="col-4 mb-5">
         <div class="row">
             <div class="col-12">
                 @foreach($product->images as $image)
@@ -61,7 +61,7 @@
             </div>
         </div>
     </div>
-    <div class="col-8">
+    <div class="col-8 mb-5">
         <div class="row">
             <div class="col-12 mb-3">
                 <h1><span class="pb-1" style="border-bottom: medium solid rgb(70, 70, 70);">{{$product->name}}</span></h1>
@@ -116,5 +116,49 @@
             </div>
         </div>
     </div>
+    <div class="col-12 mb-5">
+        <div class="row mb-2">
+            <div class="col-12">
+                <hr>
+                <h4>Produk Rekomendasi</h4>
+            </div>
+        </div>
+        <div class="row">
+            @foreach($recommendations as $recommendation)
+            <div class="col-lg-3 col-md-4 col-sm-6 col-6" style="margin-bottom: 20px;">
+                <div class="row img-thumbnail" style="margin: 0px 0px 5px 0px; padding: 10px;">
+                    <div class="col-12">
+                        <a href="{{route('product-detail', ['code' => $recommendation->code])}}">
+                            <div class="row">
+                                <div class="col-12" style="height: 200px; overflow: hidden;">
+                                    @if($recommendation->url)
+                                    <img class="mw-100" src="{{asset('img/'.$recommendation->url)}}" alt="{{$recommendation->name}}" data-toggle="tooltip" title="{{$recommendation->name}}">
+                                    @else
+                                    Tidak ada gambar
+                                    @endif
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">            
+                        <h5 style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis" data-toggle="tooltip" title="{{$recommendation->name}}"><a href="{{route('product-detail', ['code' => $recommendation->code])}}" style="text-decoration:none;">{{$recommendation->name}}</a></h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12" style="padding-right:2px;">
+                        <div class="row">
+                            <div class="col-12 pb-3">Rp {{number_format($recommendation->price)}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
 </div>
+<script>
+    $('[data-toggle="tooltip"]').tooltip();
+</script>
 @endsection
