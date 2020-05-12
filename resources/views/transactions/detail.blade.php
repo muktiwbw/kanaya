@@ -1,10 +1,14 @@
-@extends('layouts.admin')
+@extends('layouts.default')
 
 @section('title', $transaction->trans_no)
 
-@section('admin-title', $transaction->customer->name.' - '.$transaction->trans_no)
-
-@section('admin-content')
+@section('default-content')
+<div class="row pb-4">
+    <div class="col-12">
+        @l_button(['href' => route('admin-transaction-list'), 'text' => 'Kembali'])@endl_button
+    </div>
+</div>
+@page_title(['title' => 'Detail Transaksi'])@endpage_title
 <div class="row">
     <div class="col-6">
         @foreach($transaction->products as $item)

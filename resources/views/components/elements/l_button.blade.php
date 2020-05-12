@@ -1,1 +1,1 @@
-<li class="cb {{$color ?? ''}} {{$opt ?? ''}}" href="{{$href}}">{{$text}}</li>
+<a class="cb {{$color ?? ''}} {{$opt ?? ''}}" href="{{$href}}">{{$text}}</a>

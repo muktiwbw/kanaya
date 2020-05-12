@@ -1,10 +1,14 @@
-@extends('layouts.admin')
+@extends('layouts.default')
 
 @section('title', $product->name)
 
-@section('admin-title', $product->name)
-
-@section('admin-content')
+@section('default-content')
+<div class="row pb-4">
+    <div class="col-12">
+        @l_button(['href' => route('admin-products-list'), 'text' => 'Kembali'])@endl_button
+    </div>
+</div>
+@page_title(['title' => 'Ubah Detail Produk'])@endpage_title
 <div class="row">
     <div class="col-4">
         <div class="row">
@@ -22,10 +26,7 @@
     </div>
     <div class="col-8">
         <div class="row">
-            <div class="col-6">
-                <h3>Ubah Detail Produk</h3>
-            </div>
-            <div class="col-6 text-right">
+            <div class="col-12 text-right">
                 <form action="{{route('admin-products-delete', ['code' => $product->code])}}" method="post">
                     <button type="submit" class="btn btn-danger">Hapus Produk</button>
                     @method('delete')

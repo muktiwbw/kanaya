@@ -1,10 +1,14 @@
-@extends('layouts.admin')
+@extends('layouts.default')
 
 @section('title', 'New Product')
 
-@section('admin-title', 'Tambahkan Produk')
-
-@section('admin-content')
+@section('default-content')
+<div class="row pb-4">
+    <div class="col-12">
+        @l_button(['href' => route('admin-products-list'), 'text' => 'Kembali'])@endl_button
+    </div>
+</div>
+@page_title(['title' => 'Tambahkan Produk'])@endpage_title
 <form action="{{route('admin-products-store')}}" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label for="code">Kode Produk</label>

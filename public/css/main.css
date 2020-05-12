@@ -39,6 +39,10 @@ body {
     color: var(--font-black);
 }
 
+a {
+    text-decoration: none !important;
+}
+
 .navbar-brand>img {
     object-fit: cover;
     object-position: 0 40%;
