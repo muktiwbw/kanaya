@@ -33,6 +33,7 @@
             <tr class="thead-dark">
                 <th>#</th>
                 <th>Code</th>
+                <th>Kategori</th>
                 <th>Name</th>
                 <th>Preview</th>
                 <th>Price</th>
@@ -45,6 +46,7 @@
             <tr>
                 <td>{{$loop->index+1}}</td>
                 <td>{{$product->code}}</td>
+                <td>{{ucwords(str_replace('-', ' ', $product->category))}}</td>
                 <td><a href="{{route('admin-products-edit', ['code' => $product->code])}}">{{$product->name}}</a></td>
                 <td>
                     @if($product->url)

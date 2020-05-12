@@ -61,10 +61,26 @@
                                     <option class="size-counter" value="s" data-value="{{$sizes['s']}}" selected>S</option>
                                     <option class="size-counter" value="m" data-value="{{$sizes['m']}}">M</option>
                                     <option class="size-counter" value="l" data-value="{{$sizes['l']}}">L</option>
+                                    <option class="size-counter" value="xl" data-value="{{$sizes['xl']}}">XL</option>
                                 </select>
                             </div>
                             <div class="col-9">
                                 <input type="number" name="stock" class="form-control" id="stock" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Kategori</label>
+                        <div class="row">
+                            <div class="col-4">
+                                <select name="category" class="form-control" @if($categories->count() == 0) disabled @endif>
+                                    @foreach($categories as $category)
+                                    <option value="{{$category->category}}" @if($product->category && $category->category == $product->category) selected @endif>{{ucwords(str_replace('-', ' ', $category->category))}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-8">
+                                <input type="text" class="form-control" name="new_category" placeholder="Tambahkan kategori baru">
                             </div>
                         </div>
                     </div>

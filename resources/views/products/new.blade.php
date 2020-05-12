@@ -24,7 +24,23 @@
             <option value="s">S</option>
             <option value="m">M</option>
             <option value="l">L</option>
+            <option value="XL">XL</option>
         </select>
+    </div>
+    <div class="form-group">
+        <label for="category">Kategori</label>
+        <div class="row">
+            <div class="col-4">
+                <select name="category" class="form-control" @if($categories->count() == 0) disabled @endif>
+                    @foreach($categories as $category)
+                    <option value="{{$category->category}}">{{ucwords(str_replace('-', ' ', $category->category))}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-8">
+                <input type="text" class="form-control" name="new_category" placeholder="Tambahkan kategori baru">
+            </div>
+        </div>
     </div>
     <div class="form-group">
         <label for="price">Harga</label>

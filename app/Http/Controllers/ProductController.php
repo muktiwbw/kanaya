@@ -6,6 +6,7 @@ use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 use App\Product;
 use App\Image;
@@ -15,6 +16,7 @@ class ProductController extends Controller
     public function all(){
         $products = DB::table('products')
                     ->select('products.code', 
+                            'products.category',
                             'products.name', 
                             'images.url', 
                             'products.price')
@@ -28,7 +30,7 @@ class ProductController extends Controller
                         ->groupBy('products.code')
                         ->get();
                     })
-                    ->groupBy('products.code', 'products.name', 'images.url', 'products.price')
+                    ->groupBy('products.code', 'products.category', 'products.name', 'images.url', 'products.price')
                     ->orderBy('products.code', 'desc')
                     ->paginate(5);    
                     
@@ -57,6 +59,8 @@ class ProductController extends Controller
     public function create(){
         $items = Product::groupBy('code')->count() > 0 ? intval(Product::select('code')->groupBy('code')->orderBy('code', 'desc')->first()->code) + 1 : 1;
 
+        $categories = Product::select('category')->groupBy('category')->get(); 
+
         if($items < 10){
             $items = '0000'.$items;
         }elseif($items >= 10 and $items < 100){
@@ -67,25 +71,35 @@ class ProductController extends Controller
             $items = '0'.$items;
         }
 
-        return view('products.new', ['code' => $items]);
+        return view('products.new', ['code' => $items, 'categories' => $categories]);
     }
 
     public function store(Request $request){
-        $products = $this->reusable_store(
-            $request->stock,
-            $request->code,
-            $request->name,
-            $request->size,
-            $request->price,
-            $request->notes,
-            $request->file('images')
-        );
+        $products = $this->reusable_store([
+            'stock' => $request->stock,
+            'code' => $request->code,
+            'name' => $request->name,
+            'size' => $request->size,
+            'category' => $request->new_category ? Str::slug($request->new_category, '-') : $request->category,
+            'price' => $request->price,
+            'notes' => $request->notes,
+            'images' => $request->file('images')
+        ]);
 
         return redirect()->route('admin-products-list');
     }
 
-    private function reusable_store($stock, $code, $name, $size, $price, $notes, $imageFiles, $fileCount = 1, $storeImage = true){
+    private function reusable_store($product, $fileCount = 1, $storeImage = true){
         $products = [];
+
+        $stock = $product['stock'];
+        $code = $product['code'];
+        $name = $product['name'];
+        $size = $product['size'];
+        $category = $product['category'];
+        $price = $product['price'];
+        $notes = $product['notes'];
+        $imageFiles = $product['images'];
 
         try {
             for($i=0;$i<$stock;$i++){
@@ -93,6 +107,7 @@ class ProductController extends Controller
                     'code' => $code,
                     'name' => $name,
                     'size' => $size,
+                    'category' => $category,
                     'price' => $price,
                     'notes' => $notes,
                 ]);
@@ -135,6 +150,7 @@ class ProductController extends Controller
         // $product = Product::where('code', $code)->first();
         $product = DB::table('products')
                     ->select('products.code', 
+                            'products.category', 
                             'products.name', 
                             'products.price', 
                             'products.size', 
@@ -145,7 +161,7 @@ class ProductController extends Controller
                     ->leftJoin('transaction_details', 'products.id', '=', 'transaction_details.product_id')
                     ->leftJoin('transactions', 'transactions.id', '=', 'transaction_details.transaction_id')
                     ->where('products.code', $code)
-                    ->groupBy('products.code', 'products.name', 'products.price', 'products.size', 'products.notes')
+                    ->groupBy('products.code', 'products.category', 'products.name', 'products.price', 'products.size', 'products.notes')
                     ->first();
 
         $product_code = $product->code;
@@ -157,12 +173,16 @@ class ProductController extends Controller
             's' => Product::where('code', $code)->where('size', 's')->count(),
             'm' => Product::where('code', $code)->where('size', 'm')->count(),
             'l' => Product::where('code', $code)->where('size', 'l')->count(),
+            'xl' => Product::where('code', $code)->where('size', 'xl')->count(),
         ];
+
+        $categories = Product::select('category')->groupBy('category')->get(); 
 
         return view('products.edit', [
             'product' => $product,
             'images' => $images,
-            'sizes' => $sizes
+            'sizes' => $sizes,
+            'categories' => $categories
         ]);
     }
 
@@ -174,6 +194,7 @@ class ProductController extends Controller
             $product->name = $request->name;
             $product->price = $request->price;
             $product->notes = $request->notes;
+            $product->category = $request->new_category ? Str::slug($request->new_category, '-') : $request->category;
             $product->save();
         }
         // Update basic data end ==========================================================================================================
@@ -229,13 +250,16 @@ class ProductController extends Controller
             // Add
             $addition = $request->stock - $currentSizeStock;
             $newProducts = $this->reusable_store(
-                $addition,
-                $request->code,
-                $request->name,
-                $request->size,
-                $request->price,
-                $request->notes,
-                null,
+                [
+                    'stock' => $addition,
+                    'code' => $request->code,
+                    'name' => $request->name,
+                    'size' => $request->size,
+                    'category' => $request->new_category ? Str::slug($request->new_category, '-') : $request->category,
+                    'price' => $request->price,
+                    'notes' => $request->notes,
+                    'images' => null,
+                ],
                 null,
                 false
             );
