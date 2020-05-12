@@ -3,6 +3,7 @@
 @section('title', Auth::guard('customers')->user()->name)
 
 @section('default-content')
+@page_title(['title' => 'Profile'])@endpage_title
 <div class="row">
     <div class="col-12">
         <h1><i class="fa fa-user" aria-hidden="true"></i> {{Auth::guard('customers')->user()->name}}</h1>

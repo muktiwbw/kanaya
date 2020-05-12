@@ -92,6 +92,7 @@
 </div>
 
 <!-- Content -->
+@page_title(['title' => 'Cart'])@endpage_title
 <div class="row">
     <div class="col-12">
         <div class="alert alert-warning permanent" role="alert">
@@ -102,10 +103,6 @@
             <i class="fa fa-ban" aria-hidden="true"></i> <strong>Peringatan!</strong> Keranjang belanja telah melebihi batas maksimal 5 item.
         </div>
         @endif
-    </div>
-    <div class="col-12">
-        <h1><i class="fa fa-shopping-cart" aria-hidden="true"></i> My Cart</h1>
-        <hr>
     </div>
 </div>
 @if($transaction && $transaction->products()->count() > 0)

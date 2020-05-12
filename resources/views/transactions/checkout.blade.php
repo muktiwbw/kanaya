@@ -3,11 +3,8 @@
 @section('title', 'Checkout')
 
 @section('default-content')
+@page_title(['title' => 'Checkout'])@endpage_title
 <div class="row">
-    <div class="col-12">
-        <h1><i class="fa fa-credit-card" aria-hidden="true"></i> Checkout</h1>
-        <hr>
-    </div>
     @if(!$transaction->receipt)
     <div class="col-12">
         <h4>Petunjuk</h4>
@@ -34,7 +31,7 @@
     @elseif($transaction->status < 2)
     <div class="col-12">
         <h4>Status</h4>
-        <h5>Pembayaran anda sedang diproses</h5>
+        <h5>Pembayaran anda sedang diproses. Silakan untuk menunggu beberapa saat.</h5>
     </div>
     @else
     <div class="col-12">

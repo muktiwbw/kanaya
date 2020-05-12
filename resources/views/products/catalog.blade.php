@@ -3,12 +3,7 @@
 @section('title', 'Catalog')
 
 @section('default-content')
-<div class="row">
-    <div class="col-12">
-        <h1><i class="fa fa-shopping-bag" aria-hidden="true"></i> Catalog</h1>
-        <hr>
-    </div>
-</div>
+@page_title(['title' => 'Catalog'])@endpage_title
 <div class="row">
     @foreach($products as $product)
     <div class="col-lg-3 col-md-4 col-sm-6 col-6" style="margin-bottom: 20px;">
