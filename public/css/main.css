@@ -1,0 +1,61 @@
+:root {
+    /* Color Palette */
+    --color-palette-1: coral;
+
+    /* Fonts */
+    --main-font: 'Muli', sans-serif;
+  }
+
+body {
+    font-family: var(--main-font);
+}
+
+.navbar-brand>img {
+    object-fit: cover;
+    object-position: 0 40%;
+    width: 200px;
+    height: 30px;
+}
+
+/* Buttons */
+.cb {
+	background:#ee3333;
+	background-color:#ee3333;
+	border-radius:42px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	padding:16px 31px;
+	text-decoration:none;
+}
+
+.cb.cb-block {
+    width: 100%;
+    text-align: center;
+}
+
+.cb.cb-red {
+    background:#ee3333;
+    background-color:#ee3333;
+}
+
+.cb.cb-blue {
+    background:#1c4966;
+	background-color:#1c4966;
+}
+
+/* Content Space */
+.content-section {
+    min-height: 1000px;
+}
+
+/* Footer Section */
+#footer {
+    height: 400px;
+    background: var(--color-palette-1);
+}
+
+#footer .logo {
+    width: 50px;
+}
+/* Footer Section ======================================================================================== */
