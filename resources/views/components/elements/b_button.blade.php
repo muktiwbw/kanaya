@@ -1,0 +1,1 @@
+<button class="cb {{$color ?? ''}} {{$opt ?? ''}}">{{$text}}</button>
