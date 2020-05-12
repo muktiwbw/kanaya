@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
     <div class="container">
         <a class="navbar-brand" href="{{route('home')}}">
             <img src="/img/assets/logo/kanaya.png" alt="">
@@ -15,21 +15,21 @@
                     </form>
                 </li>
                 <li class="nav-item mx-1">
-                    <a class="nav-link" href="{{route('catalog')}}"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Catalog</a>
+                    <a class="nav-link" href="{{route('catalog')}}"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Katalog</a>
                 </li>
                 @if(Auth::guard('customers')->check())
                 <li class="nav-item mx-1">
-                    <a class="nav-link @if(Auth::guard('customers')->user()->transactions()->where('status',0)->first() && Auth::guard('customers')->user()->transactions()->where('status',0)->first()->products()->count() > 0) text-danger @endif" href="{{route('cart')}}"><i class="fa fa-shopping-cart" aria-hidden="true"></i> My Cart</a>
+                    <a class="nav-link @if(Auth::guard('customers')->user()->transactions()->where('status',0)->first() && Auth::guard('customers')->user()->transactions()->where('status',0)->first()->products()->count() > 0) text-danger @endif" href="{{route('cart')}}"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Keranjang</a>
                 </li>
                 <li class="nav-item mx-1">
-                    <a class="nav-link" href="{{route('customer-transactions')}}"><i class="fa fa-clock-o" aria-hidden="true"></i> History</a>
+                    <a class="nav-link" href="{{route('customer-transactions')}}"><i class="fa fa-clock-o" aria-hidden="true"></i> Riwayat</a>
                 </li>
                 @endif
                 <li class="nav-item mx-1">
                     <a class="nav-link" href="{{Auth::guard('customers')->check() ? route('profile') : route('admin-products-list')}}"><i class="fa fa-user" aria-hidden="true"></i> {{Auth::guard('customers')->check() ? explode(' ', Auth::guard('customers')->user()->name)[0] : explode(' ', Auth::guard('users')->user()->name)[0]}}</a>
                 </li>
                 <li class="nav-item ml-1">
-                    <a class="nav-link text-danger" href="{{route('logout')}}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
+                    <a class="nav-link text-danger" href="{{route('logout')}}"><i class="fa fa-sign-out" aria-hidden="true"></i> Keuar</a>
                 </li>
                 @else
                 <li class="nav-item mx-1">

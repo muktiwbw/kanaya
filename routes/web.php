@@ -1,8 +1,6 @@
 <?php
 
-Route::get('/', function () {
-    return view('products.home');
-})->name('home');
+Route::get('/', 'TransactionController@home')->name('home');
 
 // Catalog
 Route::get('catalog', 'TransactionController@catalog')->name('catalog');

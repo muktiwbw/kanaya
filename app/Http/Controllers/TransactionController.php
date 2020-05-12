@@ -18,6 +18,24 @@ use App\TransactionLog;
 class TransactionController extends Controller
 {
     // public section
+    public function home(){
+        $categories = Product::select('category')
+                        ->groupBy('category')
+                        ->inRandomOrder()
+                        ->limit(3)
+                        ->get()
+                        ->transform(function($cat) {
+                            $cat->products = $this->getAllProducts()
+                                                ->where('category', $cat->category)
+                                                ->inRandomOrder()
+                                                ->limit(3)
+                                                ->get();
+                            return $cat;
+                        });
+                        
+        return view('products.home', ['categories' => $categories]);
+    }
+    
     public function catalog(){
         $products = $this->getAllProducts()
                         ->get()

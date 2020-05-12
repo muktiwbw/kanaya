@@ -43,6 +43,10 @@ a {
     text-decoration: none !important;
 }
 
+.see-more-button {
+    margin-top: 32%;
+}
+
 .navbar-brand>img {
     object-fit: cover;
     object-position: 0 40%;
@@ -51,16 +55,25 @@ a {
 }
 
 .cover-image {
-    background-image: var(--cover-image);
-    background-size: 100vw;
-    background-position: center center;
-    background-repeat: no-repeat;
-    object-fit: cover;
-    height: 77vh;
+    width: 100%;
 }
 
 .page-title {
     border-bottom: medium solid var(--color-black);
+}
+
+.item-display {
+    padding: 60px 0;
+}
+
+.item-display.display-bg-gray {
+    background-color: rgb(250, 250, 250);
+}
+
+.item-display h2 {
+    margin-bottom: 40px;
+    padding-bottom: 10px;
+    border-bottom: medium solid;
 }
 
 /* Buttons */
