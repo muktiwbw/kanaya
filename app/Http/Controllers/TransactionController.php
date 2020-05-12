@@ -46,9 +46,9 @@ class TransactionController extends Controller
     }
 
     public function detail($code){
-        $product = Product::select('products.code', 'products.name', 'products.price', 'products.notes')
+        $product = Product::select('products.code', 'products.category', 'products.name', 'products.price', 'products.notes')
                             ->where('products.code', $code)
-                            ->groupBy('products.code', 'products.name', 'products.price', 'products.notes')
+                            ->groupBy('products.code', 'products.category', 'products.name', 'products.price', 'products.notes')
                             ->first();
 
         $sizes = Product::select('products.size',

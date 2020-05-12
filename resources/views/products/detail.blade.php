@@ -63,8 +63,9 @@
     </div>
     <div class="col-8">
         <div class="row">
-            <div class="col-12">
-                <h1>{{$product->name}}</h1>
+            <div class="col-12 mb-3">
+                <h1><span class="pb-1" style="border-bottom: medium solid rgb(70, 70, 70);">{{$product->name}}</span></h1>
+                <span><strong>{{ucwords(str_replace('-', ' ', $product->category))}}</strong></span>
             </div>
             <div class="col-12">
                 <p>{{$product->notes}}</p>
