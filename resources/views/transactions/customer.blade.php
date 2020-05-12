@@ -3,16 +3,14 @@
 @section('title', 'Transaksi')
 
 @section('default-content')
-<div class="row">
-    <div class="col-12">
-        <h1><i class="fa fa-credit-card" aria-hidden="true"></i> Transaksi</h1>
-        <hr>
-    </div>
-</div>
+@page_title(['title' => 'Riwayat Transaksi'])@endpage_title
 <div class="row">
 <div class="col-12">
         @if($transactions->count() == 0)
-            <h3>Belum ada transaksi yang masuk</h3>
+            <h3 class="text-center">
+                Belum ada transaksi yang masuk<br>
+                <a href="{{route('catalog')}}">Sudah cek katalog?</a>
+            </h3>
             @else
             <table class="table table-hover table-bordered">
                 <tr class="thead-dark">
