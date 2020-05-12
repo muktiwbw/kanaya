@@ -92,7 +92,7 @@
 </div>
 
 <!-- Content -->
-@page_title(['title' => 'Cart'])@endpage_title
+@page_title(['title' => 'Keranjang Belanja'])@endpage_title
 <div class="row">
     <div class="col-12">
         <div class="alert alert-warning permanent" role="alert">
