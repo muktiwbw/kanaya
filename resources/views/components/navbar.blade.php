@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="@if(Auth::guard('customers')->check() || Auth::check()) container @else container-fluid @endif">
+    <div class="container">
         <a class="navbar-brand" href="{{route('home')}}">
             <img src="img/assets/logo/kanaya.png" alt="">
         </a>
