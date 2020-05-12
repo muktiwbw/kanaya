@@ -19,10 +19,8 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->double('price');
             $table->string('size', 3);
+            $table->string('category');
             $table->text('notes')->nullable();
-            // $table->integer('stock')->default(0);
-            // $table->integer('available')->default(0);
-            // $table->integer('rent')->default(0);
             $table->timestamps();
         });
     }
