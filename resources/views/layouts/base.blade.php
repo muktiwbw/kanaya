@@ -24,7 +24,7 @@
     
     @yield('content')
 
-    @if(Auth::guard('customers')->check())
+    @if(!Auth::guard('users')->check())
     @component('components.footer')@endcomponent
     @endif
 </body>

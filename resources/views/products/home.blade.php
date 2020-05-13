@@ -3,7 +3,7 @@
 @section('default-content')
 <div class="row">
     <img class="cover-image" src="/img/assets/image/cover.jpg" alt="">
-    <div class="col-12 text-center py-5">
+    <div class="col-12 text-center py-4">
         <ul class="nav justify-content-center">
             <li class="nav-item mx-2">
                 <a class="cb cb-outline" href="{{route('catalog')}}">CEK KATALOG</a>
@@ -12,7 +12,7 @@
     </div>
     <div class="col-12">
         @foreach($categories as $category)
-        <div class="row item-display @if($loop->index % 2 == 0) display-bg-gray @endif">
+        <div class="row item-display @if($loop->index % 2 == 1) display-bg-gray @endif">
             <div class="container">
                 <div class="row">
                     <div class="col-12">

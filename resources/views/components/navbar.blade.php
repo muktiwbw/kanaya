@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
+<nav class="navbar navbar-expand-lg navbar-light bg-light py-2">
     <div class="container">
         <a class="navbar-brand" href="{{route('home')}}">
             <img src="/img/assets/logo/kanaya.png" alt="">

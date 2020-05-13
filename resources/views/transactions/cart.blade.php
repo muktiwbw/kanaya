@@ -93,6 +93,8 @@
 
 <!-- Content -->
 @page_title(['title' => 'Keranjang Belanja'])@endpage_title
+
+@if($transaction && $transaction->products()->count() > 0)
 <div class="row">
     <div class="col-12">
         <div class="alert alert-warning permanent" role="alert">
@@ -103,17 +105,14 @@
             <i class="fa fa-ban" aria-hidden="true"></i> <strong>Peringatan!</strong> Keranjang belanja telah melebihi batas maksimal 5 item.
         </div>
         @endif
-    </div>
-</div>
-@if($transaction && $transaction->products()->count() > 0)
-<div class="row pb-2">
-    <div class="col-12">
         <div id="queue-alert" class="alert alert-danger" role="alert" @if($transaction->item_queue->count() <= 0) style="display:none" @endif>
             <h6><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <strong>Peringatan!</strong></h6>
             Terdapat item yang masih belum tersedia. Hal ini akan berdampak pada waktu mulai peminjaman.<br>
             <a id="queue-info" href="#">Klik untuk lebih lanjut</a>
         </div>
     </div>
+</div>
+<div class="row pb-2">
     <div class="col-6">
         <form> 
             <div class="form-group">
@@ -206,7 +205,10 @@
     </div>
 </div>
 @else
-<h2>Tidak ada item di keranjang</h2>
+<h3 class="text-center">
+    Tidak ada item di keranjang<br>
+    <a href="{{route('catalog')}}">Sudah cek katalog?</a>
+</h3>
 @endif
 
 <script type="text/javascript">
