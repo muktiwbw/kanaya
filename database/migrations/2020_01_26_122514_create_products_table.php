@@ -17,7 +17,8 @@ class CreateProductsTable extends Migration
             $table->bigIncrements('id');
             $table->string('code', 5);
             $table->string('name');
-            $table->double('price');
+            $table->double('price')->default(0);
+            $table->double('sale')->default(0);
             $table->string('size', 3);
             $table->string('category')->nullable();
             $table->text('notes')->nullable();
