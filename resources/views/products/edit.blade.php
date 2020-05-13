@@ -11,27 +11,40 @@
 @page_title(['title' => 'Ubah Detail Produk'])@endpage_title
 <div class="row">
     <div class="col-4">
-        <div class="row">
-            <div class="col-12" style="margin-bottom:10px;"><h6>Klik untuk memilih gambar yang ingin dihapus</h6></div>
-            <div class="col-12" style="margin-bottom:15px;">
-                <div class="row">
+        <div class="alert alert-primary" role="alert">
+            <h5><strong><i class="fa fa-lightbulb-o" aria-hidden="true"></i> Bantuan</strong></h5>
+            <p>Klik untuk memilih gambar yang ingin dihapus.</p>
+            <p>Untuk menambahkan gambar klik pada menu Tambahkan Gambar di bawah.</p>
+        </div>
+        <div class="grid-row">
+            <div class="grid-column">
                 @foreach($images as $image)
-                <div class="col-6" style="margin-bottom:15px;">
-                    <img onclick="highlight(event)" style="border-style: none;" id="image-{{$image->id}}" width="200" class="display-images" src="{{asset('img/'.$image->url)}}" alt="{{$product->name}}">
-                </div>
+                    @if(($loop->index + 1) % 2 == 1)
+                    <img id="image-{{$image->id}}" class="img img-thumbnail display-images" onclick="highlight(event)" style="width:100%" src="{{asset('img/'.$image->url)}}" alt="{{$product->name}}">
+                    @endif
                 @endforeach
-                </div>
+            </div>
+            <div class="grid-column">
+                @foreach($images as $image)
+                    @if(($loop->index + 1) % 2 == 0)
+                    <img id="image-{{$image->id}}" class="img img-thumbnail display-images" onclick="highlight(event)" style="width:100%" src="{{asset('img/'.$image->url)}}" alt="{{$product->name}}">
+                    @endif
+                @endforeach
             </div>
         </div>
     </div>
     <div class="col-8">
         <div class="row">
-            <div class="col-12 text-right">
+            <div class="col-6"><h3>{{$product->name}}</h3></div>
+            <div class="col-6 text-right">
                 <form action="{{route('admin-products-delete', ['code' => $product->code])}}" method="post">
                     <button type="submit" class="btn btn-danger">Hapus Produk</button>
                     @method('delete')
                     @csrf
                 </form>
+            </div>
+            <div class="col-12">
+                <hr>
             </div>
         </div>
         <div class="row">
@@ -113,13 +126,14 @@
         let elem = e.target
         
         // Highlight image
-        if(elem.style.borderStyle == 'none'){
+        if(elem.style.borderColor != 'red'){
             elem.style.borderStyle = 'solid'
             elem.style.borderColor = 'red'
-            elem.style.borderWidth = '5px'
+            elem.style.borderWidth = '6px'
             elem.setAttribute('selected', '')
         } else {
-            elem.style.borderStyle = 'none'
+            elem.style.borderColor = '#464646'
+            elem.style.borderWidth = '3px'
             elem.removeAttribute('selected', '')
         }
 
