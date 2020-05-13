@@ -50,8 +50,8 @@ a {
 .navbar-brand>img {
     object-fit: cover;
     object-position: 0 40%;
-    width: 200px;
-    height: 30px;
+    width: 260px;
+    height: 40px;
 }
 
 .cover-image {
