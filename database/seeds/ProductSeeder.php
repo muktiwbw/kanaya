@@ -150,7 +150,7 @@ class ProductSeeder extends Seeder
                     for($j=1; $j<=$batch['counts']; $j++){
 
                         $fileName = "{$code}-{$name}-{$j}";
-                        $pathUrl = "/img/products/{$fileName}.JPG";
+                        $pathUrl = "products/{$fileName}.JPG";
 
                         Image::create([
                             'name' => $fileName,
