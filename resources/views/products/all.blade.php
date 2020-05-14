@@ -10,17 +10,6 @@
             <div class="col-6">
                 <a class="btn btn-success" href="{{route('admin-products-create')}}">+ Tambahkan Produk</a>
             </div>
-            <div class="col-6 text-right">
-            @if($products->count() > 0)
-                @if(!$products->onFirstPage())<a href="{{$products->url(1)}}" class="btn btn-dark"><<</a>
-                <a href="{{$products->previousPageUrl()}}" class="btn btn-dark"><</a>@endif
-                @for($i=0;$i<$products->lastPage();$i++)
-                    <a href="{{$products->url($i+1)}}" class="btn @if($products->currentPage() == $i+1) btn-dark @else btn-outline-dark @endif">{{$i+1}}</a>
-                @endfor
-                @if($products->hasMorePages())<a href="{{$products->nextPageUrl()}}" class="btn btn-dark">></a>
-                <a href="{{$products->url($products->lastPage())}}" class="btn btn-dark">>></a>@endif
-            @endif
-            </div>
         </div>
     </div>
 </div>
@@ -81,7 +70,7 @@
         </table>
         @endif
     </div>
-    <div class="col-12 text-right">
+    <div class="col-12 text-center">
         @if($products->count() > 0)
             @if(!$products->onFirstPage())<a href="{{$products->url(1)}}" class="btn btn-dark"><<</a>
             <a href="{{$products->previousPageUrl()}}" class="btn btn-dark"><</a>@endif

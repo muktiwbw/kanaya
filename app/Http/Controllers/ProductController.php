@@ -32,7 +32,7 @@ class ProductController extends Controller
                     })
                     ->groupBy('products.code', 'products.category', 'products.name', 'images.url', 'products.price')
                     ->orderBy('products.code', 'desc')
-                    ->paginate(5);    
+                    ->paginate(10);    
                     
         $products->getCollection()->transform(function($el){
             $el->sizes = DB::table('products')
