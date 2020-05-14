@@ -14,16 +14,16 @@ class ProductSeeder extends Seeder
     public function run()
     {
         
-        $sizes = ['S','M','L','XL'];
+        $sizes = ['s','m','l','xl'];
 
-        products = [
+        $categories = [
             [
                 'name' => 'Dress Party',
-                'category' => 'dress-party',
+                'slug' => 'dress-party',
                 'stock' => 50,
                 'sale' => 700000,
                 'rent' => 350000,
-                'images' => [
+                'batches' => [
                     [
                         'counts' => 3,
                         'end' => 9
@@ -32,11 +32,11 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'Kaftan Ramadhan',
-                'category' => 'kaftan-ramadhan',
+                'slug' => 'kaftan-ramadhan',
                 'stock' => 100,
                 'sale' => 800000,
                 'rent' => 300000,
-                'images' => [
+                'batches' => [
                     [
                         'counts' => 3,
                         'end' => 19
@@ -45,11 +45,11 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'Kebaya Akad',
-                'category' => 'kebaya-akad',
+                'slug' => 'kebaya-akad',
                 'stock' => 30,
                 'sale' => 3000000,
                 'rent' => 800000,
-                'images' => [
+                'batches' => [
                     [
                         'counts' => 3,
                         'end' => 29
@@ -62,11 +62,11 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'Kebaya Resepsi',
-                'category' => 'kebaya-resepsi',
+                'slug' => 'kebaya-resepsi',
                 'stock' => 10,
                 'sale' => 6000000,
                 'rent' => 2500000,
-                'images' => [
+                'batches' => [
                     [
                         'counts' => 1,
                         'end' => 79
@@ -75,11 +75,11 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'Kebaya Wisuda',
-                'category' => 'kebaya-wisuda',
+                'slug' => 'kebaya-wisuda',
                 'stock' => 50,
                 'sale' => 0,
                 'rent' => 0,
-                'images' => [
+                'batches' => [
                     [
                         'counts' => 2,
                         'end' => 89
@@ -92,11 +92,11 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'Prewedding',
-                'category' => 'prewedding',
+                'slug' => 'prewedding',
                 'stock' => 50,
                 'sale' => 0,
                 'rent' => 0,
-                'images' => [
+                'batches' => [
                     [
                         'counts' => 3,
                         'end' => 118
@@ -109,11 +109,11 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'White Gown',
-                'category' => 'white-gown',
+                'slug' => 'white-gown',
                 'stock' => 50,
                 'sale' => 0,
                 'rent' => 0,
-                'images' => [
+                'batches' => [
                     [
                         'counts' => 3,
                         'end' => 130
@@ -124,7 +124,74 @@ class ProductSeeder extends Seeder
                     ]
                 ]
             ]
-        ]
+        ];
+
+        $counter = 1;
+        $code;
+
+        foreach ($categories as $category) {
+            
+            foreach ($category['batches'] as $batch) {
+                
+                for($i=$counter; $i<=$batch['end']; $i++){
+
+                    if($counter < 10){
+                        $code = '0000'.$counter;
+                    }elseif($counter >= 10 and $counter < 100){
+                        $code = '000'.$counter;
+                    }elseif($counter >= 100 and $counter < 1000){
+                        $code = '00'.$counter;
+                    }elseif($counter >= 1000 and $counter < 10000){
+                        $code = '0'.$counter;
+                    }
+
+                    $name = "{$category['name']} {$counter}";
+
+                    for($j=1; $j<=$batch['counts']; $j++){
+
+                        $fileName = "{$code}-{$name}-{$j}";
+                        $pathUrl = "/img/products/{$fileName}.JPG";
+
+                        Image::create([
+                            'name' => $fileName,
+                            'url' => $pathUrl,
+                            'path' => $pathUrl
+                        ]);
+
+                    }
+
+                    $images = Image::where('name', 'like', "{$code}%")->get();
+
+                    foreach ($sizes as $size) {
+                        
+                        for($k=0; $k<$category['stock']; $k++){
+
+                            $product = Product::create([
+                                'code' => $code,
+                                'name' => $name,
+                                'price' => $category['rent'],
+                                'sale' => $category['sale'],
+                                'size' => $size,
+                                'category' => $category['slug']
+                            ]);
+
+                            foreach ($images as $image) {
+                                
+                                $product->images()->save($image);
+                            
+                            }
+
+                        }
+
+                    }
+
+                    $counter++;
+
+                }
+
+            }
+
+        }
 
     }
 }

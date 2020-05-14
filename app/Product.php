@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $fillable = ['code', 'name', 'price', 'notes', 'size', 'category'];
+    protected $fillable = ['code', 'name', 'price', 'sale', 'notes', 'size', 'category'];
 
     protected $hidden = ['pivot'];
 
