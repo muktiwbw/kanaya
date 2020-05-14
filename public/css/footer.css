@@ -98,7 +98,7 @@
 }
 .social-icons li
 {
-  display:inline-block;
+  display:block;
   margin-bottom:4px
 }
 .social-icons li.title
@@ -136,17 +136,17 @@
   width:34px;
   font-size:14px
 }
-.social-icons a.facebook:hover
+.social-icons a.instagram:hover
 {
-  background-color:#3b5998
+  background-color:#E1306C
 }
-.social-icons a.twitter:hover
+.social-icons a.whatsapp:hover
 {
-  background-color:#00aced
+  background-color:#25D366
 }
-.social-icons a.linkedin:hover
+.social-icons a.office:hover
 {
-  background-color:#007bb6
+  background-color: #d63447;
 }
 .social-icons a.dribbble:hover
 {

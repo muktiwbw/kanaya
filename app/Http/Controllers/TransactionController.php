@@ -21,8 +21,6 @@ class TransactionController extends Controller
     public function home(){
         $categories = Product::select('category')
                         ->groupBy('category')
-                        ->inRandomOrder()
-                        ->limit(3)
                         ->get()
                         ->transform(function($cat) {
                             $cat->products = $this->getAllProducts()
@@ -32,8 +30,13 @@ class TransactionController extends Controller
                                                 ->get();
                             return $cat;
                         });
+
+        $photogrid = Product::inRandomOrder()->limit(12)->get()->transform(function($p){
+            $p->url = $p->images()->first()->url;
+            return $p;
+        });
                         
-        return view('products.home', ['categories' => $categories]);
+        return view('products.home', ['categories' => $categories, 'grids' => $photogrid]);
     }
     
     public function catalog(){
