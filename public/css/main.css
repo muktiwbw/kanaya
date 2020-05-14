@@ -20,18 +20,18 @@
   }
 
 /* Bootstrap extended */
-.nav-link.admin-page-nav-link {
+.nav-link.admin-page-nav-link, .nav-link.display-category-nav-link {
     color: var(--color-black);
     transition: ease-in-out 100ms;
 }
 
-.nav-link.admin-page-nav-link:hover {
+.nav-link.admin-page-nav-link:hover, .nav-link.display-category-nav-link:hover {
     border-bottom: medium solid var(--color-black);
 }
 
-.nav-link.admin-page-nav-link.active {
-    font-weight: bolder;
-    border-bottom: medium solid var(--color-black);
+.nav-link.admin-page-nav-link.active, .nav-link.display-category-nav-link.active {
+    font-weight: bolder; 
+    border-bottom: medium solid var(--color-black); 
 }
 
 body {
@@ -43,8 +43,53 @@ a {
     text-decoration: none !important;
 }
 
-.see-more-button {
-    margin-top: 32%;
+.home-content {
+    padding: 200px 0;
+}
+
+.display-category-nav {
+    min-height: 1000px;
+    margin-bottom: 100px;
+}
+
+.home-thumbnail {
+    height: 600px; 
+    background-size: cover;
+    background-position-y: 40%;
+}
+
+.few-item-container {
+    min-height: 800px;
+    background-size: cover;
+    background-position: center;
+}
+
+.few-item-container:hover {
+    background-size: 120%;
+}
+
+.button-container {
+    opacity: 0;
+    height: 100%;
+    background-color: rgba(70, 70, 70, .5);
+    transition: opacity .5s;
+}
+
+.button-container:hover {
+    opacity: 1;
+    height: 100%;
+}
+
+.button-container h2 {
+    background-color: rgba(0, 0, 0, .6);
+    color: var(--font-white);
+    width: 100%;
+    padding: 100px 0;
+}
+
+.button-container .see-more-button {
+    color: var(--font-white) !important;
+    border-color: var(--font-white) !important;
 }
 
 .navbar-brand>img {
@@ -58,6 +103,14 @@ a {
     width: 100%;
 }
 
+.feature-grid>div {
+    background: #D8E9FA;
+}
+
+.feature-grid>div:nth-child(2n+0) {
+    background: #BED0E9;
+}
+
 .page-title {
     border-bottom: medium solid var(--color-black);
 }
@@ -66,14 +119,12 @@ a {
     padding: 60px 0;
 }
 
-.item-display.display-bg-gray {
-    background-color: rgb(250, 250, 250);
+.grid-gallery .col-2 {
+    height: 250px;
 }
 
-.item-display h2 {
-    margin-bottom: 40px;
-    padding-bottom: 10px;
-    border-bottom: medium solid;
+.grid-background-container {
+    background-size: cover;
 }
 
 /* Buttons */
