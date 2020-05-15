@@ -185,6 +185,14 @@ a {
     background-position: center;
 }
 
+.catalog-image-grid.thumbnail {
+    height: 100px;
+}
+
+.catalog-image-grid.medium {
+    height: 200px;
+}
+
 .pagination {
     justify-content: center;
 }
@@ -196,6 +204,29 @@ a {
 
 .pagination a {
     color: var(--color-black) !important;
+}
+
+.preview-grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.preview-grid-container>div {
+    border: thin solid var(--color-black);
+}
+
+.catalog-image-grid.thumbnail:hover {
+    cursor: pointer;
+}
+
+.catalog-image-grid.thumbnail>.grid-overlay{
+    background: rgba(70, 70, 70, .5);
+    visibility: hidden;
+}
+
+.catalog-image-grid.thumbnail.img-active>.grid-overlay{
+    background: rgba(70, 70, 70, .5);
+    visibility: visible;
 }
 
 /* Footer Section */

@@ -102,7 +102,7 @@ class TransactionController extends Controller
         $recommendations = $this->getAllProducts()
                                 ->where('code', '<>', $code)
                                 ->inRandomOrder()
-                                ->limit(4)
+                                ->limit(6)
                                 ->get();
 
         return view('products.detail', ['product' => $product, 'recommendations' => $recommendations]);

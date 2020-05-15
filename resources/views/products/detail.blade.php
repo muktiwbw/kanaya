@@ -16,47 +16,23 @@
         cursor: pointer;
     }
 </style>
-<script>
-    function preview(e){
-        let elem = e.target
-        
-        // Remove img-active class in all img-thumbnails
-        let thumbnails = Array.from(document.getElementsByClassName('img-thumbnail'))
-        for(let i = 0; i < thumbnails.length; i++){
-            thumbnails[i].classList.remove('img-active')
-        }
-
-        // Highlight thumbnail by giving img-active class
-        elem.classList.add('img-active')
-
-        // Add display none and Remove img-active in current display
-        let currentDisplay = document.querySelector('.img-display.img-active')
-        currentDisplay.classList.remove('img-active')
-        currentDisplay.style.display = 'none'
-
-        // Add img-active in selected image
-        let id = elem.id.split('-')[2]
-        let nextDisplay = document.getElementById(`img-display-${id}`)
-        nextDisplay.classList.add('img-active')
-        nextDisplay.style.display = 'block'
-
-    }
-</script>
 <div class="row">
     <div class="col-4 mb-5">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 mw-100">
                 @foreach($product->images as $image)
-                <img id="img-display-{{$image->id}}" class="img img-fluid img-display @if($loop->index == 0) img-active @endif" @if($loop->index > 0) style="display:none;" @endif src="{{asset('img/'.$image->url)}}" alt="{{$product->name}}">
+                <img data-value="{{$image->id}}" class="mw-100 img img-display @if($loop->index == 0) img-active @endif" @if($loop->index > 0) style="display:none;" @endif src="{{asset('img/'.$image->url)}}" alt="{{$product->name}}">
                 @endforeach
             </div>
             <div class="col-12 pt-2">
                 <div class="row">
-                    @foreach($product->images as $image)
-                    <div class="col-3">
-                        <img id="img-thumbnail-{{$image->id}}" onclick="preview(event)" class="img img-fluid img-thumbnail @if($loop->index == 0) img-active @endif" src="{{asset('img/'.$image->url)}}" alt="{{$product->name}}">
+                    <div class="col-12 preview-grid-container w-100">
+                        @foreach($product->images as $image)
+                        <div class="catalog-image-grid thumbnail @if($loop->index == 0) img-active @endif" style="background-image: url('/img/{{$image->url}}')" data-value="{{$image->id}}">
+                            <div class="grid-overlay w-100 h-100 test"></div>
+                        </div>
+                        @endforeach
                     </div>
-                    @endforeach
                 </div>
             </div>
         </div>
@@ -120,22 +96,20 @@
         <div class="row mb-2">
             <div class="col-12">
                 <hr>
-                <h4>Produk Rekomendasi</h4>
+                <h4 class="py-4">Produk Rekomendasi</h4>
             </div>
         </div>
         <div class="row">
             @foreach($recommendations as $recommendation)
-            <div class="col-lg-3 col-md-4 col-sm-6 col-6" style="margin-bottom: 20px;">
-                <div class="row img-thumbnail" style="margin: 0px 0px 5px 0px; padding: 10px;">
+            <div class="col-lg-2 col-md-2 col-sm-3 col-6" style="margin-bottom: 20px;">
+                <div class="row mb-3">
                     <div class="col-12">
-                        <a href="{{route('product-detail', ['code' => $recommendation->code])}}">
+                        <a href="{{route('product-detail', ['code' => $recommendation->code])}}" data-toggle="tooltip" title="{{$recommendation->name}}">
                             <div class="row">
-                                <div class="col-12" style="height: 200px; overflow: hidden;">
-                                    @if($recommendation->url)
-                                    <img class="mw-100" src="{{asset('img/'.$recommendation->url)}}" alt="{{$recommendation->name}}" data-toggle="tooltip" title="{{$recommendation->name}}">
-                                    @else
-                                    Tidak ada gambar
-                                    @endif
+                                <div class="col-12 w-100">
+                                    <div class="catalog-image-grid medium @if($loop->index == 0) @endif" style="background-image: url('/img/{{$recommendation->url}}')">
+                                        @if(!$recommendation->url) Tidak ada gambar @endif
+                                    </div>
                                 </div>
                             </div>
                         </a>
@@ -143,11 +117,11 @@
                 </div>
                 <div class="row">
                     <div class="col-12">            
-                        <h5 style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis" data-toggle="tooltip" title="{{$recommendation->name}}"><a href="{{route('product-detail', ['code' => $recommendation->code])}}" style="text-decoration:none;">{{$recommendation->name}}</a></h5>
+                        <h5 style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:0;" data-toggle="tooltip" title="{{$recommendation->name}}"><a href="{{route('product-detail', ['code' => $recommendation->code])}}" style="text-decoration:none;">{{$recommendation->name}}</a></h5>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12" style="padding-right:2px;">
+                    <div class="col-12">
                         <div class="row">
                             <div class="col-12 pb-3">Rp {{number_format($recommendation->price)}}</div>
                         </div>
@@ -160,5 +134,19 @@
 </div>
 <script>
     $('[data-toggle="tooltip"]').tooltip();
+
+    $('.catalog-image-grid.thumbnail').click(function(){
+        currentImgId = $('.catalog-image-grid.thumbnail.img-active').attr('data-value')
+        nextImgId = $(this).attr('data-value')
+
+        // Displaying big preview
+        $(`.img-display[data-value="${currentImgId}"]`).hide()
+        $(`.img-display[data-value="${nextImgId}"]`).show()
+
+        $('.catalog-image-grid.thumbnail.img-active').removeClass('img-active')
+        $(this).addClass('img-active')
+        
+    })
 </script>
+
 @endsection
