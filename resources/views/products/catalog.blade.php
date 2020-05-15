@@ -9,19 +9,19 @@
         <form action="{{route('catalog')}}" method="get" class="form-inline justify-content-end">
             <label class="sr-only" for="productCategory">Category</label>
             <select class="form-control mb-2 mr-sm-2" name="category" id="productCategory">
-                <option @if($queries['category'] == 'all') selected @endif value="all">All</option>
-                <option @if($queries['category'] == 'dress-party') selected @endif value="dress-party">Dress Party</option>
-                <option @if($queries['category'] == 'kaftan-ramadhan') selected @endif value="kaftan-ramadhan">Kaftan Ramadhan</option>
-                <option @if($queries['category'] == 'kebaya-akad') selected @endif value="kebaya-akad">Kebaya Akad</option>
-                <option @if($queries['category'] == 'kebaya-resepsi') selected @endif value="kebaya-resepsi">Kebaya Resepsi</option>
-                <option @if($queries['category'] == 'kebaya-wisuda') selected @endif value="kebaya-wisuda">Kebaya Wisuda</option>
-                <option @if($queries['category'] == 'prewedding') selected @endif value="prewedding">Prewedding</option>
-                <option @if($queries['category'] == 'white-gown') selected @endif value="white-gown">White Gown</option>
+                <option @if(array_key_exists('category', $queries) && $queries['category'] == 'all') selected @endif value="all">All</option>
+                <option @if(array_key_exists('category', $queries) && $queries['category'] == 'dress-party') selected @endif value="dress-party">Dress Party</option>
+                <option @if(array_key_exists('category', $queries) && $queries['category'] == 'kaftan-ramadhan') selected @endif value="kaftan-ramadhan">Kaftan Ramadhan</option>
+                <option @if(array_key_exists('category', $queries) && $queries['category'] == 'kebaya-akad') selected @endif value="kebaya-akad">Kebaya Akad</option>
+                <option @if(array_key_exists('category', $queries) && $queries['category'] == 'kebaya-resepsi') selected @endif value="kebaya-resepsi">Kebaya Resepsi</option>
+                <option @if(array_key_exists('category', $queries) && $queries['category'] == 'kebaya-wisuda') selected @endif value="kebaya-wisuda">Kebaya Wisuda</option>
+                <option @if(array_key_exists('category', $queries) && $queries['category'] == 'prewedding') selected @endif value="prewedding">Prewedding</option>
+                <option @if(array_key_exists('category', $queries) && $queries['category'] == 'white-gown') selected @endif value="white-gown">White Gown</option>
             </select>
             <label class="sr-only" for="priceRangeStart">Start</label>
-            <input type="number" class="form-control mb-2 mr-sm-2" id="priceRangeStart" placeholder="Harga awal" name="start_range" @if($queries['start_range']) value="{{$queries['start_range']}}" @endif>
+            <input type="number" class="form-control mb-2 mr-sm-2" id="priceRangeStart" placeholder="Harga awal" name="start_range" @if(array_key_exists('start_range', $queries)) value="{{$queries['start_range']}}" @endif>
             <label class="sr-only" for="priceRangeEnd">End</label>
-            <input type="number" class="form-control mb-2 mr-sm-2" id="priceRangeEnd" placeholder="Harga akhir" name="end_range" @if($queries['end_range']) value="{{$queries['end_range']}}" @endif>
+            <input type="number" class="form-control mb-2 mr-sm-2" id="priceRangeEnd" placeholder="Harga akhir" name="end_range" @if(array_key_exists('end_range', $queries)) value="{{$queries['end_range']}}" @endif>
             <button class="btn btn-success form-control mb-2" type="submit">Pencarian</button>
         </form>
     </div>
@@ -30,20 +30,14 @@
 <div class="row">
     @foreach($products as $product)
     <div class="col-lg-3 col-md-4 col-sm-6 col-6" style="margin-bottom: 20px;">
-        <div class="row img-thumbnail" style="margin: 0px 0px 5px 0px; padding: 10px;">
-            <div class="col-12">
-                <a href="{{route('product-detail', ['code' => $product->code])}}">
-                    <div class="row">
-                        <div class="col-12" style="height: 200px; overflow: hidden;">
-                            @if($product->url)
-                            <img class="mw-100" src="{{asset('img/'.$product->url)}}" alt="{{$product->name}}" data-toggle="tooltip" title="{{$product->name}}">
-                            @else
-                            Tidak ada gambar
-                            @endif
-                        </div>
-                    </div>
-                </a>
-            </div>
+        <div class="row" style="margin: 0px 0px 5px 0px; padding: 10px;">
+            <a class="w-100" href="{{route('product-detail', ['code' => $product->code])}}">
+                <div class="row catalog-image-grid" style="background-image: url('/img/{{$product->url}}')">
+                    @if(!$product->url)
+                    Tidak ada gambar
+                    @endif
+                </div>
+            </a>
         </div>
         <div class="row">
             <div class="col-12">            

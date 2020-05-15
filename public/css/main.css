@@ -179,6 +179,12 @@ a {
     min-height: 1000px;
 }
 
+.catalog-image-grid {
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+}
+
 .pagination {
     justify-content: center;
 }

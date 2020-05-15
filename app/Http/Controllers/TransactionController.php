@@ -575,7 +575,7 @@ class TransactionController extends Controller
                 break;
 
             case 2:
-                $transaction->notes = 'Pembayaran diterima. Silakan untuk mengambil barang pesanan di gerai kami.';
+                $transaction->notes = 'Pembayaran diterima. Silakan untuk mengambil barang pesanan di gallery kami.';
                 break;
 
             case 3:

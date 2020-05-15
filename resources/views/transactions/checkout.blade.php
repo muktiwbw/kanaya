@@ -12,9 +12,9 @@
     </div>
     <div class="col-12">
         <h5>Rekening Bank</h5>
-        <p>(BCA) 909898789098</p>
+        <p>(BCA) 82204430201</p>
         <h5>Atas Nama</h5>
-        <p>Kanaya Kebaya</p>
+        <p>NILA KRESNAWATI</p>
         <h5>Total Pembayaran</h5>
         <p>Rp {{number_format($transaction->products()->sum('price'))}}</p>
     </div>
