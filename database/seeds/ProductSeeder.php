@@ -73,57 +73,57 @@ class ProductSeeder extends Seeder
                     ]
                 ]
             ],
-            [
-                'name' => 'Kebaya Wisuda',
-                'slug' => 'kebaya-wisuda',
-                'stock' => 50,
-                'sale' => 0,
-                'rent' => 0,
-                'batches' => [
-                    [
-                        'counts' => 2,
-                        'end' => 89
-                    ],
-                    [
-                        'counts' => 1,
-                        'end' => 95
-                    ]
-                ]
-            ],
-            [
-                'name' => 'Prewedding',
-                'slug' => 'prewedding',
-                'stock' => 50,
-                'sale' => 0,
-                'rent' => 0,
-                'batches' => [
-                    [
-                        'counts' => 3,
-                        'end' => 118
-                    ],
-                    [
-                        'counts' => 2,
-                        'end' => 120
-                    ]
-                ]
-            ],
-            [
-                'name' => 'White Gown',
-                'slug' => 'white-gown',
-                'stock' => 50,
-                'sale' => 0,
-                'rent' => 0,
-                'batches' => [
-                    [
-                        'counts' => 3,
-                        'end' => 130
-                    ],
-                    [
-                        'counts' => 2,
-                        'end' => 131
-                    ]
-                ]
-            ]
+            // [
+            //     'name' => 'Kebaya Wisuda',
+            //     'slug' => 'kebaya-wisuda',
+            //     'stock' => 50,
+            //     'sale' => 0,
+            //     'rent' => 0,
+            //     'batches' => [
+            //         [
+            //             'counts' => 2,
+            //             'end' => 89
+            //         ],
+            //         [
+            //             'counts' => 1,
+            //             'end' => 95
+            //         ]
+            //     ]
+            // ],
+            // [
+            //     'name' => 'Prewedding',
+            //     'slug' => 'prewedding',
+            //     'stock' => 50,
+            //     'sale' => 0,
+            //     'rent' => 0,
+            //     'batches' => [
+            //         [
+            //             'counts' => 3,
+            //             'end' => 118
+            //         ],
+            //         [
+            //             'counts' => 2,
+            //             'end' => 120
+            //         ]
+            //     ]
+            // ],
+            // [
+            //     'name' => 'White Gown',
+            //     'slug' => 'white-gown',
+            //     'stock' => 50,
+            //     'sale' => 0,
+            //     'rent' => 0,
+            //     'batches' => [
+            //         [
+            //             'counts' => 3,
+            //             'end' => 130
+            //         ],
+            //         [
+            //             'counts' => 2,
+            //             'end' => 131
+            //         ]
+            //     ]
+            // ]
         ];
 
         $counter = 1;
