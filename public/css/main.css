@@ -179,6 +179,19 @@ a {
     min-height: 1000px;
 }
 
+.pagination {
+    justify-content: center;
+}
+
+.pagination span {
+    background-color: var(--color-black) !important;
+    border-color: var(--color-black) !important;
+}
+
+.pagination a {
+    color: var(--color-black) !important;
+}
+
 /* Footer Section */
 #footer {
     height: 400px;

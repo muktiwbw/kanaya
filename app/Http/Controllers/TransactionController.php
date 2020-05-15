@@ -39,22 +39,41 @@ class TransactionController extends Controller
         return view('products.home', ['categories' => $categories, 'grids' => $photogrid]);
     }
     
-    public function catalog(){
-        $products = $this->getAllProducts()
-                        ->paginate(20);
+    public function catalog(Request $request){
+        // dd($request->query());
+
+        $products = $this->getAllProducts();
+
+        if($request->query('category') && $request->query('category') != 'all') $products->where('products.category', $request->query('category'));
+
+        if($request->query('start_range')) $products->where('products.price', '>=', intval($request->query('start_range')));
+
+        if($request->query('end_range')) $products->where('products.price', '<=', intval($request->query('end_range')));
+
+        $products = $products->paginate(20);
 
         $products->getCollection()
                 ->transform(function($el){
                     $el->sizes = DB::table('products')
-                                    ->select('size', DB::raw('count(id) as stock'))
+                                    ->select('products.size', DB::raw('count(products.id) as stock'))
+                                    ->join(DB::raw("
+                                        (select products.size, 
+                                        case when products.size = 's' then 1
+                                        when products.size = 'm' then 2
+                                        when products.size = 'l' then 3
+                                        when products.size = 'xl' then 4
+                                        end rank
+                                        from products
+                                        group by 1, 2) a
+                                    "), 'products.size', '=','a.size')
                                     ->where('code', $el->code)
-                                    ->groupBy('size')
-                                    ->orderBy('size', 'desc')
+                                    ->groupBy('a.size', 'a.rank')
+                                    ->orderBy('a.rank')
                                     ->get();
                     return $el;
                 });
 
-        return view('products.catalog', ['products' => $products]);
+        return view('products.catalog', ['products' => $products, 'queries' => $request->query()]);
     }
 
     public function detail($code){

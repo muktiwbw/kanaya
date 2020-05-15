@@ -8,7 +8,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                @if(Auth::guard('users')->check() || Auth::guard('customers')->check())
                 <li class="mx-1">
                     <form class="form-inline">
                         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -17,6 +16,7 @@
                 <li class="nav-item mx-1">
                     <a class="nav-link" href="{{route('catalog')}}"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Katalog</a>
                 </li>
+                @if(Auth::guard('users')->check() || Auth::guard('customers')->check())
                 @if(Auth::guard('customers')->check())
                 <li class="nav-item mx-1">
                     <a class="nav-link @if(Auth::guard('customers')->user()->transactions()->where('status',0)->first() && Auth::guard('customers')->user()->transactions()->where('status',0)->first()->products()->count() > 0) text-danger @endif" href="{{route('cart')}}"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Keranjang</a>
