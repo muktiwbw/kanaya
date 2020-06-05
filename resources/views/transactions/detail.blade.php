@@ -5,7 +5,7 @@
 @section('default-content')
 <div class="row pb-4">
     <div class="col-12">
-        @l_button(['href' => route('admin-transaction-list'), 'text' => 'Kembali'])@endl_button
+        <a href="{{route('admin-products-list')}}"><i class="fa fa-chevron-left" aria-hidden="true"></i> Kembali</a>
     </div>
 </div>
 @page_title(['title' => 'Detail Transaksi'])@endpage_title

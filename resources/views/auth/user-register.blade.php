@@ -20,7 +20,7 @@
                                 <input type="text" name="email" class="form-control" id="email">
                             </div>
                             <div class="form-group">
-                                <label for="password">Password</label>
+                                <label for="password">Kata Sandi</label>
                                 <input type="password" name="password" class="form-control" id="password">
                             </div>
                             <div class="form-group">
@@ -31,7 +31,7 @@
                                 <label for="address">Alamat</label>
                                 <input type="text" name="address" class="form-control" id="address">
                             </div>
-                            <input class="btn btn-primary btn-block" type="submit" name="Submit">
+                            <input class="btn btn-primary btn-block" type="submit" name="Submit" value="Registrasi">
                             <input type="hidden" name="_guard" value="users">
                             @csrf
                         </form>

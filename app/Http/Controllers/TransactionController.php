@@ -240,11 +240,14 @@ class TransactionController extends Controller
         //     return redirect()->route('cart')->withErrors(['message', 'Maksimal item pada keranjang belanja adalah 5 item.']);
         // }
 
-        // Add the item to this transaction
+        // Inisialisasi jumlah item
         $quantity = $request->quantity && $request->quantity > 0 ? $request->quantity : 1;
 
+        // Mengambil item yang tersedia
         $products = $this->getAvailableProducts($quantity, ['code' => $code, 'size' => $request->size]);
             
+        // Jika permintaan melebihi jumlah item yang tersedia,
+        // cari item yang sedang dipinjam atau masih dalam antrian pelanggan lain
         if($products->count() < $quantity){
             $wanting = $quantity - $products->count();
 

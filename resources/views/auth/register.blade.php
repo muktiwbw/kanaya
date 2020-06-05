@@ -16,15 +16,15 @@
                                 <input type="text" name="name" class="form-control" id="name" autofocus>
                             </div>
                             <div class="form-group">
-                                <label for="email">Email address</label>
+                                <label for="email">Email</label>
                                 <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp">
                             </div>
                             <div class="form-group">
-                                <label for="password">Password</label>
+                                <label for="password">Kata Sandi</label>
                                 <input type="password" name="password" class="form-control" id="password">
                             </div>
                             <div class="form-group">
-                                <label for="confirm_password">Konfirmasi Password</label>
+                                <label for="confirm_password">Konfirmasi Kata Sandi</label>
                                 <input type="password" name="confirm_password" class="form-control" id="confirm_password">
                             </div>
                             <div class="form-group">
@@ -35,7 +35,7 @@
                                 <label for="address">Alamat</label>
                                 <input type="text" name="address" class="form-control" id="address">
                             </div>
-                            <input class="btn btn-primary btn-block" type="submit" name="Submit">
+                            <input class="btn btn-primary btn-block" type="submit" name="Submit" value="Registrasi">
                             <input type="hidden" name="_guard" value="customers">
                             @csrf
                         </form>

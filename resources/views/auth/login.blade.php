@@ -7,7 +7,7 @@
     .card-body {
         transition: all .5s;
     }
-    
+
     .card-body.dark, .card-body.dark a {
         background-color: rgb(100,100,100);
         color: var(--font-white)
@@ -17,19 +17,19 @@
     <div class="col-6 offset-3 text-center" style="margin-top:15vh;">
         <div class="card">
             <div class="card-body">
-                <h1 id="card-title" class="card-title">Customer Login</h1>
+                <h1 id="card-title" class="card-title">Login Pelanggan</h1>
                 <div class="row">
                     <div class="col-12 mb-3">
                         <form id="customer-form" class="text-left active" action="{{route('login')}}" method="post">
                             <div class="form-group">
-                                <label for="email">Email address</label>
+                                <label for="email">Email</label>
                                 <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" autofocus>
                             </div>
                             <div class="form-group">
-                                <label for="password">Password</label>
+                                <label for="password">Kata Sandi</label>
                                 <input type="password" name="password" class="form-control" id="password">
                             </div>
-                            <input class="btn btn-primary btn-block" type="submit" name="Submit">
+                            <input class="btn btn-primary btn-block" type="submit" name="submit" value="Masuk">
                             <input type="hidden" name="_guard" value="customers">
                             @csrf
                         </form>
@@ -39,10 +39,10 @@
                                 <input type="text" name="email" class="form-control" id="email" autofocus>
                             </div>
                             <div class="form-group">
-                                <label for="password">Password</label>
+                                <label for="password">Kata Sandi</label>
                                 <input type="password" name="password" class="form-control" id="password">
                             </div>
-                            <input class="btn btn-primary btn-block" type="submit" name="Submit">
+                            <input class="btn btn-primary btn-block" type="submit" name="submit" value="Masuk">
                             <input type="hidden" name="_guard" value="users">
                             @csrf
                         </form>
@@ -65,14 +65,14 @@
             $('#customer-form').hide()
             $('#admin-form').show()
             $('.card-body').addClass('dark')
-            $('#card-title').html('Admin Login')
+            $('#card-title').html('Login Admin')
         } else{
             $(this).attr('user', 'customer')
             $(this).html('Login sebagai admin')
             $('#admin-form').hide()
             $('.card-body').removeClass('dark')
             $('#customer-form').show()
-            $('#card-title').html('Customer Login')
+            $('#card-title').html('Login Pelanggan')
         }
     })
 </script>
